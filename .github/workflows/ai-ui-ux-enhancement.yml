@@ -275,7 +275,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         id: create_pr
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PR_TOKEN }}
           branch: ${{ steps.branch.outputs.branch_name }}
           base: main
           title: "🎨 AI-Powered UI/UX Enhancement"
