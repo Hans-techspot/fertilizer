@@ -452,7 +452,73 @@ const Home = (): JSX.Element => {
           </Carousel>
         </div>
       </motion.section>
-
+ {/* Gallery Section */}
+      <motion.section
+        id="gallery"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-green-50"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Gallery</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our journey and impact through vivid moments from the field.
+            </p>
+          </motion.div>
+          <Carousel className="w-full max-w-4xl mx-auto">
+            <CarouselContent>
+              {[1,2,3,4,5,6].map((num, idx) => (
+                <CarouselItem key={num} className="md:basis-1/2 lg:basis-1/3">
+                  <motion.div
+                    className="p-2 h-full"
+                    initial={{
+                      opacity: 0,
+                      x: idx % 3 === 0 ? -80 : idx % 3 === 1 ? 0 : 80,
+                      y: idx % 2 === 0 ? 30 : -30
+                    }}
+                    whileInView={{
+                      opacity: 1,
+                      x: 0,
+                      y: 0
+                    }}
+                    transition={{
+                      duration: 0.7,
+                      delay: idx * 0.1
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="relative rounded-xl overflow-hidden shadow-lg group h-72 flex items-center justify-center bg-white">
+                      <img
+                        src={`/${num}.jpg`}
+                        alt={`Gallery image ${num}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:rotate-1"
+                        style={{ minHeight: 270, maxHeight: 340 }}
+                      />
+                      <motion.div
+                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center"
+                        whileHover={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+                      >
+                        <motion.div
+                          className="opacity-0 group-hover:opacity-100 rounded-full border-2 border-white px-5 py-2 bg-white/80 text-gray-800 text-lg font-semibold shadow-lg transition-all"
+                          initial={{ y: 30, opacity: 0 }}
+                          whileHover={{ y: 0, opacity: 1 }}
+                        >
+                          View
+                        </motion.div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hover:scale-110 transition-transform" />
+            <CarouselNext className="hover:scale-110 transition-transform" />
+          </Carousel>
+        </div>
+      </motion.section>
       {/* Video Section */}
       <motion.section
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white"
