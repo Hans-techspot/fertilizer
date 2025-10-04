@@ -484,12 +484,12 @@ const Home = (): JSX.Element => {
                   className="w-full h-full object-cover"
                   controls
                   autoPlay
-                  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  src="https://lzuknbfbvpuscpammwzg.supabase.co/storage/v1/object/public/projects/projects/Nourishing%20the%20World%20Together-VEED%20(1).mp4"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center relative cursor-pointer" onClick={() => setIsVideoPlaying(true)}>
                   <img
-                    src="https://api.a0.dev/assets/image?text=Agriculture Video&aspect=16:9&seed=video"
+                    src="https://api.a0.dev/assets/image?text=TAT Global&aspect=16:9&seed=video"
                     alt="Agriculture Video Thumbnail"
                     className="w-full h-full object-cover"
                   />
