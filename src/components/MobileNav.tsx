@@ -33,7 +33,7 @@ const MobileNav = (): JSX.Element => {
           >
             <div className="flex flex-col p-6">
               <div className="flex items-center justify-between mb-6">
-                <img src="/logo.svg" alt="TAT GLOBAL" className="h-8" />
+                <img src="/src/assets/logo.svg" alt="TAT GLOBAL" className="h-8" />
                 <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
                   <X className="h-6 w-6" />
                 </Button>
