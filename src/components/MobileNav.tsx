@@ -29,7 +29,7 @@ const MobileNav = (): JSX.Element => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '-100%', opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 left-0 right-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-green-200 md:hidden"
+            className="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-green-200 md:hidden"
           >
             <div className="flex flex-col p-6">
               <div className="flex items-center justify-between mb-6">
@@ -43,7 +43,7 @@ const MobileNav = (): JSX.Element => {
                   <Link
                     key={item.to}
                     to={item.to}
-                    className={`block py-2 px-4 rounded-md text-lg font-medium transition-colors hover:bg-green-50 hover:text-green-700 ${location.pathname === item.to ? 'bg-green-100 text-green-700' : 'text-gray-800'}`}
+                    className={`block py-2 px-4 rounded-md text-lg font-medium transition-colors hover:bg-green-50 hover:text-green-700 ${location.pathname === item.to ? 'bg-green-100 text-green-700' : 'text-gray-700'}`}
                     onClick={() => setIsOpen(false)}
                   >
                     {item.label}
