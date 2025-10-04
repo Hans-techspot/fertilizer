@@ -1,0 +1,94 @@
+name: 🔒 Secure Autonomous Gemini Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      goal:
+        description: 'Task for the autonomous agent (must be scoped and safe)'
+        required: true
+        type: string
+      target_branch:
+        description: 'Branch to work on (default: current branch)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  autonomous:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read        # ← Critical: no direct write
+      issues: write
+      pull-requests: write
+      id-token: write       # For secure GCP auth (optional)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.target_branch }}
+
+      - name: Run Secure Autonomous Agent
+        uses: google-github-actions/run-gemini-cli@v0
+        with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          gemini_model: gemini-1.5-pro
+          gemini_cli_version: latest
+
+          # 🔐 SECURE SETTINGS (aligned with official invoke.yml)
+          settings: |-
+            {
+              "model": {
+                "maxSessionTurns": 30
+              },
+              "mcpServers": {
+                "github": {
+                  "command": "docker",
+                  "args": [
+                    "run", "-i", "--rm",
+                    "-e", "GITHUB_PERSONAL_ACCESS_TOKEN",
+                    "ghcr.io/github/github-mcp-server:latest"
+                  ],
+                  "env": {
+                    "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+                  },
+                  "includeTools": [
+                    "get_file_contents",
+                    "search_code",
+                    "get_issue",
+                    "get_pull_request_files",
+                    "create_branch",
+                    "create_or_update_file",
+                    "push_files",
+                    "create_pull_request",
+                    "add_issue_comment"
+                  ]
+                }
+              },
+              "tools": {
+                "core": [
+                  "run_shell_command(cat)",
+                  "run_shell_command(grep)",
+                  "run_shell_command(ls)"
+                ]
+              }
+            }
+
+          # 🛡 ENFORCED SAFE PROMPT
+          prompt: |-
+            You are a senior software engineer operating in **autonomous mode**.
+            Your task: ${{ github.event.inputs.goal }}
+
+            ## 🔒 Security & Execution Rules (NON-NEGOTIABLE):
+            1. **NO FILE DELETION**: Never use `delete_file` or `rm`.
+            2. **NO DANGEROUS SHELL COMMANDS**: Only use `cat`, `grep`, `ls`.
+            3. **WORK IN A NEW BRANCH**: Always create a branch named `gemini/autonomous-{timestamp}`.
+            4. **COMMIT SAFELY**: Use Conventional Commits (`feat:`, `fix:`, `chore:`).
+            5. **CREATE A PULL REQUEST**: Never push directly to protected branches.
+            6. **SUMMARIZE IN A COMMENT**: Post a final report in a new issue or the triggering context.
+            7. **RESPECT SCOPE**: If the task seems ambiguous, destructive, or out of scope, ABORT and explain why.
+
+            Begin by analyzing the codebase. Then execute the task fully autonomously—no approval needed.
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
