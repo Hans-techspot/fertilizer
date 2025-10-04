@@ -7,6 +7,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Badge } from '@/components/ui/badge'
 import { Award, Leaf, Tractor, Star, Users, TrendingUp, Zap, Shield, CheckCircle, Globe, Heart, Play, BarChart3, Clock, MapPin, Phone, Mail } from 'lucide-react'
 import Footer from '@/components/Footer'
+import { Link } from "react-router-dom";
+
 
 const Home = (): JSX.Element => {
   const [scrollY, setScrollY] = useState(0)
