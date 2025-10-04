@@ -1,0 +1,366 @@
+name: Autonomous AI UI/UX Enhancement
+
+on:
+  workflow_dispatch:
+    inputs:
+      enhancement_prompt:
+        description: 'Describe the UI/UX enhancements you want'
+        required: true
+        default: 'Analyze and enhance the UI/UX focusing on mobile responsiveness, smooth animations, professional headers, and modern styling'
+      target_files:
+        description: 'Target files/directories (comma-separated, leave empty for full project)'
+        required: false
+        default: ''
+      auto_merge:
+        description: 'Auto-merge PR if all tests pass'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  ai-ui-ux-enhancement:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Gemini CLI
+        run: |
+          npm install -g @google/gemini-cli@latest
+          gemini --version
+
+      - name: Install project dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+          elif [ -f package.json ]; then
+            npm install
+          fi
+
+      - name: Install Playwright (if configured)
+        run: |
+          if [ -f "playwright.config.js" ] || [ -f "playwright.config.ts" ]; then
+            npx playwright install --with-deps
+            echo "PLAYWRIGHT_AVAILABLE=true" >> $GITHUB_ENV
+          else
+            echo "PLAYWRIGHT_AVAILABLE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create GEMINI.md context file
+        run: |
+          cat > GEMINI.md << 'EOF'
+          # Project Context for AI UI/UX Enhancement
+          
+          ## Your Role
+          You are an expert frontend developer and UI/UX designer tasked with autonomously enhancing this project.
+          
+          ## Mission
+          Analyze and improve the user interface and user experience with focus on:
+          - **Mobile Responsiveness**: All pages work on 320px-768px screens
+          - **Smooth Animations**: CSS transitions, fade-ins, hover effects
+          - **Professional Headers**: Modern navigation design
+          - **Modern Styling**: Contemporary design (spacing, typography, colors)
+          - **Accessibility**: WCAG 2.1 AA compliance
+          - **Performance**: Optimized animations
+          
+          ## Technical Guidelines
+          - Use CSS custom properties for theming
+          - Prefer CSS over JavaScript for animations
+          - Use flexbox/grid for layouts
+          - Implement breakpoints: mobile (<768px), tablet (768-1024px), desktop (>1024px)
+          - Add smooth scroll behavior
+          - Ensure hover/focus states on interactive elements
+          - Use semantic HTML
+          - Add loading states for async operations
+          
+          ## Workflow Instructions
+          1. **Analyze**: Read project files to understand structure
+          2. **Plan**: Identify specific improvements needed
+          3. **Implement**: Make file changes using write_file tool
+          4. **Validate**: Check syntax and functionality
+          5. **Document**: Summarize all changes made
+          
+          ## Important
+          - Use built-in tools: read_file, write_file, list_files
+          - Make actual file changes, don't just suggest
+          - Work systematically through frontend files
+          - Preserve existing functionality
+          - Be thorough but focused on UI/UX
+          EOF
+
+      - name: Configure Git
+        run: |
+          git config user.name "Gemini AI Bot"
+          git config user.email "gemini-bot@github-actions.com"
+
+      - name: Create feature branch
+        id: branch
+        run: |
+          BRANCH_NAME="ai-uiux-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b $BRANCH_NAME
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      # CORRECT WAY: Use Gemini CLI directly in batch mode
+      - name: Run Gemini CLI - Autonomous Enhancement
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # Create the enhancement prompt
+          cat > /tmp/enhancement_task.txt << 'PROMPT_EOF'
+          ${{ github.event.inputs.enhancement_prompt }}
+          
+          IMPORTANT INSTRUCTIONS:
+          
+          1. ANALYZE PHASE:
+             - Use list_files to see project structure
+             - Use read_file to examine HTML, CSS, JS, React, Vue files
+             - Identify UI/UX improvement opportunities
+          
+          2. PLAN PHASE:
+             - List specific files that need changes
+             - Describe what improvements each file needs
+             - Prioritize changes (critical > important > nice-to-have)
+          
+          3. IMPLEMENT PHASE:
+             - Use write_file to make actual changes to files
+             - For each file you modify:
+               a) Read the current content
+               b) Make UI/UX improvements
+               c) Write the updated content back
+             - Focus on:
+               * Mobile responsive CSS (@media queries)
+               * CSS animations (transitions, keyframes)
+               * Header improvements (nav, logo, menu)
+               * Modern styling (colors, fonts, spacing)
+               * Accessibility (ARIA, semantic HTML)
+          
+          4. VALIDATE PHASE:
+             - After making changes, re-read files to verify
+             - Check that syntax is correct
+             - Ensure responsive design works
+          
+          5. SUMMARY PHASE:
+             - List all files you modified
+             - Describe the changes made to each
+             - Explain the UI/UX improvements
+             - Note any recommendations for testing
+          
+          TARGET FILES: ${{ github.event.inputs.target_files || 'All frontend files' }}
+          
+          Now execute this plan. Use your tools to make real file changes.
+          Work systematically and thoroughly. Begin now.
+          PROMPT_EOF
+          
+          # Run Gemini CLI in batch mode (non-interactive)
+          gemini -p "$(cat /tmp/enhancement_task.txt)" \
+            --batch \
+            --include-directories . \
+            --output-format text \
+            > /tmp/gemini_output.txt 2>&1 || true
+          
+          # Show output for debugging
+          echo "=== Gemini CLI Output ==="
+          cat /tmp/gemini_output.txt
+          echo "========================="
+          
+          # Save output as artifact
+          cp /tmp/gemini_output.txt gemini-enhancement-log.txt
+
+      - name: Commit changes made by Gemini
+        id: commit_changes
+        run: |
+          git add .
+          
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No changes were made by Gemini CLI"
+          else
+            # Count changes
+            FILES_CHANGED=$(git diff --staged --name-only | wc -l)
+            
+            git commit -m "✨ AI-powered UI/UX enhancements
+
+            Improvements made:
+            - Mobile responsiveness enhancements
+            - Smooth animations and transitions
+            - Modern header design
+            - Updated styling and visual design
+            - Accessibility improvements
+            
+            Files modified: $FILES_CHANGED
+            Generated by: Gemini AI Agent (CLI)
+            Workflow: ${{ github.workflow }}
+            Run: ${{ github.run_number }}"
+            
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+            
+            echo "✅ Changes committed: $FILES_CHANGED files"
+          fi
+
+      - name: Push to feature branch
+        if: steps.commit_changes.outputs.has_changes == 'true'
+        run: |
+          git push origin ${{ steps.branch.outputs.branch_name }}
+
+      - name: Run Playwright tests
+        if: env.PLAYWRIGHT_AVAILABLE == 'true' && steps.commit_changes.outputs.has_changes == 'true'
+        id: playwright_tests
+        run: |
+          npx playwright test || echo "TESTS_FAILED=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Generate enhancement summary
+        if: steps.commit_changes.outputs.has_changes == 'true'
+        run: |
+          cat > ui-ux-enhancement-summary.md << 'EOF'
+          # 🎨 AI UI/UX Enhancement Summary
+          
+          ## Workflow Details
+          - **Triggered**: ${{ github.event_name }}
+          - **Branch**: `${{ steps.branch.outputs.branch_name }}`
+          - **Run**: #${{ github.run_number }}
+          - **Timestamp**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ## Enhancement Request
+          ```
+          ${{ github.event.inputs.enhancement_prompt }}
+          ```
+          
+          ## Changes Made
+          
+          ### Modified Files (${{ steps.commit_changes.outputs.files_changed }})
+          ```
+          $(git diff --name-only HEAD~1 HEAD)
+          ```
+          
+          ### Statistics
+          ```
+          $(git diff --stat HEAD~1 HEAD)
+          ```
+          
+          ### Gemini CLI Output
+          See `gemini-enhancement-log.txt` artifact for full details.
+          
+          ## Test Results
+          - Playwright: ${{ env.PLAYWRIGHT_AVAILABLE == 'true' && (env.TESTS_FAILED != 'true' && '✅ Passed' || '❌ Failed') || '⚠️ Not configured' }}
+          
+          ## Next Steps
+          1. Review the PR and check changes
+          2. Test on multiple devices/browsers
+          3. Verify responsive behavior
+          4. Check accessibility with screen readers
+          5. Merge if satisfied
+          
+          ---
+          *Generated by Gemini CLI via GitHub Actions*
+          EOF
+
+      - name: Create Pull Request
+        if: steps.commit_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        id: create_pr
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.branch.outputs.branch_name }}
+          base: main
+          title: "🎨 AI-Powered UI/UX Enhancement"
+          body: |
+            ## 🤖 Autonomous AI UI/UX Enhancement
+            
+            This PR was generated by Gemini CLI running in autonomous mode.
+            
+            ### 📋 Enhancement Scope
+            ${{ github.event.inputs.enhancement_prompt || 'Comprehensive UI/UX improvements' }}
+            
+            ### ✨ Improvements Made
+            - 📱 Mobile Responsiveness
+            - 🎭 Smooth Animations & Transitions
+            - 🎯 Modern Header Design
+            - 🎨 Updated Styling
+            - ♿ Accessibility Enhancements
+            
+            ### 📊 Statistics
+            - **Files Changed**: ${{ steps.commit_changes.outputs.files_changed }}
+            - **Tests**: ${{ env.PLAYWRIGHT_AVAILABLE == 'true' && (env.TESTS_FAILED != 'true' && '✅ Passed' || '❌ Failed') || '⚠️ Not configured' }}
+            
+            ### ✅ Review Checklist
+            - [ ] Desktop views (1920px, 1366px)
+            - [ ] Tablet views (768px, 1024px)
+            - [ ] Mobile views (375px, 414px)
+            - [ ] Animations are smooth
+            - [ ] Navigation works correctly
+            - [ ] Accessibility features function
+            - [ ] No broken functionality
+            - [ ] Performance is acceptable
+            
+            ### 🔗 Resources
+            - [Enhancement Summary](./ui-ux-enhancement-summary.md)
+            - [Gemini Output Log](./gemini-enhancement-log.txt)
+            - [Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            
+            ---
+            <sub>🤖 Generated by Gemini CLI • [View Workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})</sub>
+          labels: |
+            ai-generated
+            ui-ux
+            enhancement
+          draft: ${{ env.TESTS_FAILED == 'true' }}
+
+      - name: Auto-merge if requested
+        if: |
+          github.event.inputs.auto_merge == 'true' && 
+          steps.commit_changes.outputs.has_changes == 'true' &&
+          env.TESTS_FAILED != 'true'
+        run: |
+          gh pr merge ${{ steps.create_pr.outputs.pull-request-number }} --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: enhancement-artifacts-${{ github.run_number }}
+          path: |
+            ui-ux-enhancement-summary.md
+            gemini-enhancement-log.txt
+            GEMINI.md
+          retention-days: 30
+
+      - name: Post workflow summary
+        if: always()
+        run: |
+          echo "## 🎨 AI UI/UX Enhancement Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Status" >> $GITHUB_STEP_SUMMARY
+          echo "- Changes: ${{ steps.commit_changes.outputs.has_changes == 'true' && '✅ Yes' || '❌ No' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- PR: ${{ steps.create_pr.outputs.pull-request-number && format('✅ #{0}', steps.create_pr.outputs.pull-request-number) || '❌ None' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: ${{ env.PLAYWRIGHT_AVAILABLE == 'true' && (env.TESTS_FAILED != 'true' && '✅ Passed' || '❌ Failed') || '⚠️ N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.commit_changes.outputs.has_changes }}" == "true" ]; then
+            echo "### Changes Made" >> $GITHUB_STEP_SUMMARY
+            echo "- Files: ${{ steps.commit_changes.outputs.files_changed }}" >> $GITHUB_STEP_SUMMARY
+            echo "- Branch: \`${{ steps.branch.outputs.branch_name }}\`" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.create_pr.outputs.pull-request-url }}" != "" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "[📋 View Pull Request](${{ steps.create_pr.outputs.pull-request-url }})" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "ℹ️ No changes were detected. Gemini CLI may need a more specific prompt." >> $GITHUB_STEP_SUMMARY
+          fi
