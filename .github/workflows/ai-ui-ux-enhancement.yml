@@ -330,18 +330,20 @@ jobs:
           gh pr merge ${{ steps.create_pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: enhancement-artifacts-${{ github.run_number }}
-          path: |
-            ui-ux-enhancement-summary.md
-            gemini-enhancement-log.txt
-            GEMINI.md
-          retention-days: 30
-
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: enhancement-artifacts-${{ github.run_number }}
+    path: |
+      ui-ux-enhancement-summary.md
+      gemini-enhancement-log.txt
+      GEMINI.md
+    retention-days: 30
+    token: ${{ secrets.GITHUB_TOKEN }}
+      
+      
+      
       - name: Post workflow summary
         if: always()
         run: |
