@@ -4,8 +4,8 @@ import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'luc
 
 const Footer = (): JSX.Element => {
   return (
-    <footer className="bg-green-800 text-white py-12 w-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-green-800 text-white py-12 w-full px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
@@ -33,10 +33,10 @@ const Footer = (): JSX.Element => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
               <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Products</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/products" className="text-gray-300 hover:text-white transition-colors">Products</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -77,7 +77,7 @@ const Footer = (): JSX.Element => {
               &copy; 2025 TAT GLOBAL COMPANY LIMITED. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link to="/about" className="text-gray-300 hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="/terms" className="text-gray-300 hover:text-white transition-colors">Terms & Conditions</Link>
               <a href="/about" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a>
               <a href="/about" className="text-gray-300 hover:text-white transition-colors">Sitemap</a>
             </div>

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ShoppingCart, Star, Truck, Shield } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Footer from '@/components/Footer'
 
 const Products = (): JSX.Element => {
@@ -231,7 +232,7 @@ const Products = (): JSX.Element => {
     features: ['Highest purity', 'Uncoated', 'SCR systems'],
     benefits: ['NOx reduction', 'Emission control', 'Environmental compliance'],
   },
-];
+]
 
 
   const categories = [
@@ -303,7 +304,7 @@ const Products = (): JSX.Element => {
 
         {/* Product Details Dialog */}
         <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
             {selectedProduct && (
               <>
                 <DialogHeader>
@@ -346,7 +347,9 @@ const Products = (): JSX.Element => {
                         </ul>
                       </TabsContent>
                     </Tabs>
-                    <Button className="w-full mt-6" size="lg">Contact Us for Pricing</Button>
+                    <Link to="/contact">
+                      <Button className="w-full mt-6 text-sm" size="sm">Contact Us for Pricing</Button>
+                    </Link>
                   </div>
                 </div>
               </>
