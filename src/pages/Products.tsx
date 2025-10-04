@@ -228,7 +228,7 @@ const Products = (): JSX.Element => {
     price: 'Contact Us',
     rating: 4.8,
     image: 'https://diga-as.com/wp-content/uploads/2022/10/Automotive-Grade-Urea.webp',
-    description: 'Automotive Grade Urea is a high-purity, uncoated form of urea specifically manufactured for use in Selective Catalytic Reduction (SCR) systems found in modern diesel engines. Unlike agricultural urea, it is free from additives, coatings, and impurities such as biuret, aldehydes, and heavy metals that could damage vehicle exhaust systems or reduce efficiency.This grade of urea serves as the core ingredient in diesel exhaust fluids (DEFs) such as AdBlue®, AUS 32, AUS 40, or AUS 45. When injected into the exhaust stream, the urea solution undergoes a chemical reaction that converts harmful nitrogen oxides (NOx) into harmless nitrogen (N₂) and water vapor (H₂O), significantly reducing emissions and ensuring compliance with stringent environmental regulations like Euro IV, V, VI and EPA standards.',
+    description: 'Automotive Grade Urea is a special, uncoated version of the highest purity. It is the main component of urea solutions like AdBlue® or AUS40/45 which are used within SCR systems for the reason of NOx reduction.',
     features: ['Highest purity', 'Uncoated', 'SCR systems'],
     benefits: ['NOx reduction', 'Emission control', 'Environmental compliance'],
   },

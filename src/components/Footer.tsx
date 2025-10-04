@@ -9,7 +9,7 @@ const Footer = (): JSX.Element => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <img src="/src/assets/logo.svg" alt="TAT GLOBAL" className="h-10 mb-4" />
+            <img src="/logo.svg" alt="TAT GLOBAL" className="h-10 mb-4" />
             <p className="text-gray-300 mb-4">
               Leading provider of premium fertilizer solutions for sustainable agriculture worldwide.
             </p>
