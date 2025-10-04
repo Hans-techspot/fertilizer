@@ -128,8 +128,10 @@ const Home = (): JSX.Element => {
     description: 'Ferric DTPA is a pure liquid Iron fertilizer. Iron DTPA is adviced for hydroponics. Our product is a stable, translucent solution and is recommended at different phenological stages. The high level of Iron in our formula improves the production of chlorophyll.',
     features: ['Liquid iron fertilizer', 'Hydroponics suitable', 'Stable solution'],
     benefits: ['Chlorophyll production', 'Iron deficiency correction', 'Plant vitality'],
-  },]
-     
+  },
+  
+];
+
 
   const testimonials = [
     {
