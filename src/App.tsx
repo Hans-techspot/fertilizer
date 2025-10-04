@@ -6,9 +6,9 @@ import About from './pages/About'
 import Products from './pages/Products'
 import Contact from './pages/Contact'
 import Terms from './pages/Terms'
-import { Toaster } from 'sonner'
+import './App.css'
 
-function App(): JSX.Element {
+function App() {
   return (
     <Router>
       <div className="App">
@@ -20,7 +20,6 @@ function App(): JSX.Element {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
         </Routes>
-        <Toaster />
       </div>
     </Router>
   )
