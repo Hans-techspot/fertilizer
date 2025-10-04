@@ -5,11 +5,11 @@ import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'luc
 const Footer = (): JSX.Element => {
   return (
     <footer className="bg-green-800 text-white py-12 w-full px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <img src="/logo.svg" alt="TAT GLOBAL" className="h-10 mb-4" />
+            <img src="/src/assets/logo.svg" alt="TAT GLOBAL" className="h-10 mb-4" />
             <p className="text-gray-300 mb-4">
               Leading provider of premium fertilizer solutions for sustainable agriculture worldwide.
             </p>
