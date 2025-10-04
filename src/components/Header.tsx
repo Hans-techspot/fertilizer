@@ -15,7 +15,7 @@ const Header = (): JSX.Element => {
 
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-green-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0">
             <img src="/logo.svg" alt="TAT GLOBAL" className="h-10" />
@@ -26,7 +26,8 @@ const Header = (): JSX.Element => {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 ${location.pathname === item.to ? 'bg-green-100 text-green-700' : 'text-gray-700'}`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 ${location.pathname === item.to ? 'bg-green-100 text-green-700' : 'text-green-900'
+                    }`}
                 >
                   {item.label}
                 </Link>
