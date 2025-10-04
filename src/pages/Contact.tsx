@@ -1,37 +1,35 @@
 import React from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import L from 'leaflet' // ✅ Import Leaflet properly
+import 'leaflet/dist/leaflet.css'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
-import 'leaflet/dist/leaflet.css'
 import Footer from '@/components/Footer'
 
-// Fix for default markers in react-leaflet
+// ✅ Fix for default markers in react-leaflet (Leaflet loses its default icons in Vite builds)
 const DefaultIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+  shadowSize: [41, 41],
 })
 
+// ✅ Apply globally (set the default marker icon)
 L.Marker.prototype.options.icon = DefaultIcon
 
-declare global {
-  interface Window {
-    L: any
-  }
-}
-
+// ✅ Optional: make Leaflet accessible globally (for debugging)
 if (typeof window !== 'undefined') {
-  window.L = require('leaflet')
+  ;(window as any).L = L
 }
 
 const Contact = (): JSX.Element => {
-  const position: [number, number] = [40.7128, -74.0060] // New York coordinates as example
+  const position: [number, number] = [40.7128, -74.006] // Example coordinates
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
