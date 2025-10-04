@@ -407,7 +407,12 @@ const Home = (): JSX.Element => {
                           <CardDescription className="mb-4 flex-grow">{product.description}</CardDescription>
                           <div className="flex items-center justify-between mt-auto">
                             <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                            <Button size="sm" className="hover:scale-105 transition-transform">Learn More</Button>
+                            <Link to="/contact">
+                              <Button size="sm" className="hover:scale-105 transition-transform">
+                                Learn More
+                              </Button>
+                            </Link>
+
                           </div>
                         </CardContent>
                       </Card>
