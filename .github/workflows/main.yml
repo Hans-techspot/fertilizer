@@ -146,7 +146,7 @@ jobs:
           echo "🌿 Branch name: ${BRANCH_NAME}"
       
 
-      - name: 🤖 Execute Task with Autonomous Agent
+      - name: 🤖 Execute Task with Autonomous AI Agent
         id: agent_execution
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
