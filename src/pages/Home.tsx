@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Award, Leaf, Tractor, Star, Users, TrendingUp, Zap, Shield, CheckCircle, Globe, Heart, Play, BarChart3, Clock, MapPin, Phone, Mail } from 'lucide-react'
 import Footer from '@/components/Footer'
 
@@ -14,6 +15,30 @@ const Home = (): JSX.Element => {
   const [scrollY, setScrollY] = useState(0)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [productImageLoading, setProductImageLoading] = useState<boolean[]>(() =>
+    Array(products.length).fill(true)
+  );
+
+  const handleProductImageLoad = (index: number) => {
+    setProductImageLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = false;
+      return newState;
+    });
+  };
+
+  const [galleryImageLoading, setGalleryImageLoading] = useState<boolean[]>(() =>
+    Array(6).fill(true)
+  );
+
+  const handleGalleryImageLoad = (index: number) => {
+    setGalleryImageLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = false;
+      return newState;
+    });
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -249,16 +274,15 @@ const Home = (): JSX.Element => {
             >
               Explore Products
             </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
+            <Dialog open={isQuoteModalOpen} onOpenChange={setIsQuoteModalOpen}>
+              <Button
                   size="lg"
                   variant="outline"
                   className="border-white text-white hover:bg-white hover:text-green-600 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  onClick={() => setIsQuoteModalOpen(true)}
                 >
                   Quick Quote
                 </Button>
-              </DialogTrigger>
               <DialogContent className="bg-white">
                 <Card>
                   <CardHeader>
@@ -407,7 +431,7 @@ const Home = (): JSX.Element => {
           </motion.div>
           <Carousel className="w-full max-w-6xl mx-auto">
             <CarouselContent>
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <motion.div
@@ -417,10 +441,12 @@ const Home = (): JSX.Element => {
                     >
                       <Card className="hover:shadow-xl transition-all duration-300 group cursor-pointer h-full overflow-hidden">
                         <div className="relative overflow-hidden">
+                          {productImageLoading[index] && <Skeleton className="w-full h-48" />}
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                            className={`w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110 ${productImageLoading[index] ? 'opacity-0' : 'opacity-100'}`}
+                            onLoad={() => handleProductImageLoad(index)}
                           />
                           <div className="absolute top-2 right-2">
                             <Badge variant="secondary" className="bg-white/90 text-gray-800">{product.category}</Badge>
@@ -437,7 +463,7 @@ const Home = (): JSX.Element => {
                           <CardDescription className="mb-4 flex-grow">{product.description}</CardDescription>
                           <div className="flex items-center justify-between mt-auto">
                             <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                            <Button size="sm" className="hover:scale-105 transition-transform">Learn More</Button>
+                            <Button size="sm" className="hover:scale-105 transition-transform" onClick={() => navigate('/products')}>Learn More</Button>
                           </div>
                         </CardContent>
                       </Card>
@@ -490,11 +516,13 @@ const Home = (): JSX.Element => {
                     viewport={{ once: true }}
                   >
                     <div className="relative rounded-xl overflow-hidden shadow-lg group h-72 flex items-center justify-center bg-white">
+                      {galleryImageLoading[idx] && <Skeleton className="w-full h-full" />}
                       <img
                         src={`/${num}.jpg`}
                         alt={`Gallery image ${num}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:rotate-1"
+                        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:rotate-1 ${galleryImageLoading[idx] ? 'opacity-0' : 'opacity-100'}`}
                         style={{ minHeight: 270, maxHeight: 340 }}
+                        onLoad={() => handleGalleryImageLoad(idx)}
                       />
                       <motion.div
                         className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center"
@@ -755,7 +783,7 @@ const Home = (): JSX.Element => {
                   <span>Support for organic farming certifications</span>
                 </li>
               </ul>
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 hover:scale-105 transition-all duration-300 shadow-lg">Learn About Sustainability</Button>
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 hover:scale-105 transition-all duration-300 shadow-lg" onClick={() => navigate('/about')}>Learn About Sustainability</Button>
             </motion.div>
             <motion.div variants={slideInRight} className="text-center">
               <motion.img
@@ -837,7 +865,7 @@ const Home = (): JSX.Element => {
               <Button
                 size="lg"
                 className="bg-white text-green-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-xl"
-                onClick={() => scrollToSection('home')}
+                onClick={() => setIsQuoteModalOpen(true)}
               >
                 Get Started Today
               </Button>

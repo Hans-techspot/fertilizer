@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -7,6 +8,7 @@ import { FileText, Shield, Scale, AlertTriangle } from 'lucide-react'
 import Footer from '@/components/Footer'
 
 const Terms = (): JSX.Element => {
+  const navigate = useNavigate()
   const [lastUpdated] = useState('October 3, 2025')
 
   const sections = [
@@ -40,10 +42,14 @@ const Terms = (): JSX.Element => {
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Terms & Conditions</h1>
-          <p className="text-xl text-gray-600 mb-4">Please read these terms carefully before using our services.</p>
-          <Badge variant="outline" className="text-sm">Last Updated: {lastUpdated}</Badge>
+        <div className="text-center mb-16 relative bg-cover bg-center py-20 rounded-lg" style={{backgroundImage: 'url(https://api.a0.dev/assets/image?text=Terms%20%26%20Conditions&aspect=16:9&seed=terms)'}}>
+          <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+          <div className="relative">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Terms & Conditions</h1>
+            <p className="text-xl text-gray-200 mb-4">Please read these terms carefully before using our services.</p>
+            <Badge variant="outline" className="text-sm bg-white/20 text-white">Last Updated: {lastUpdated}</Badge>
+            <Button variant="outline" size="sm" className="ml-4 bg-white/20 text-white" onClick={() => window.print()}>Print Terms</Button>
+          </div>
         </div>
 
         {/* Overview */}
@@ -85,7 +91,7 @@ const Terms = (): JSX.Element => {
         </div>
 
         {/* Detailed Terms */}
-        <div className="space-y-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           <Card>
             <CardHeader>
               <CardTitle>Use of Website</CardTitle>
@@ -168,7 +174,7 @@ const Terms = (): JSX.Element => {
               <p>Phone: +1 (555) 123-4567</p>
               <p>Address: 123 Agriculture Way, Farmville, USA 12345</p>
             </div>
-            <Button className="mt-4" variant="outline">Contact Legal Team</Button>
+            <Button className="mt-4" variant="outline" onClick={() => navigate('/contact')}>Contact Legal Team</Button>
           </CardContent>
         </Card>
 

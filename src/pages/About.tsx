@@ -9,6 +9,32 @@ import Footer from '@/components/Footer'
 const About = (): JSX.Element => {
   const [activeTab, setActiveTab] = useState('mission')
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  }
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const slideInLeft = {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8 }
+  }
+
+  const slideInRight = {
+    initial: { opacity: 0, x: 100 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8 }
+  }
+
   const stats = [
     { label: 'Years of Experience', value: 25, suffix: '+' },
     { label: 'Countries Served', value: 50, suffix: '+' },
@@ -48,9 +74,12 @@ const About = (): JSX.Element => {
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">About TAT GLOBAL</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Leading the fertilizer industry with innovation, sustainability, and a commitment to global agricultural excellence.</p>
+        <div className="text-center mb-16 relative bg-cover bg-center py-20 rounded-lg" style={{backgroundImage: 'url(https://api.a0.dev/assets/image?text=About%20Us&aspect=16:9&seed=about)'}}>
+          <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+          <div className="relative">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">About TAT GLOBAL</h1>
+            <p className="text-xl text-gray-200 max-w-3xl mx-auto">Leading the fertilizer industry with innovation, sustainability, and a commitment to global agricultural excellence.</p>
+          </div>
         </div>
 
         {/* Stats */}
@@ -114,9 +143,9 @@ const About = (): JSX.Element => {
                   <h3 className="text-2xl font-semibold mb-4">Our Leadership Team</h3>
                   <div className="grid md:grid-cols-3 gap-6">
                     {[
-                      { name: 'Dr. Sarah Johnson', role: 'CEO & Founder', image: 'https://api.a0.dev/assets/image?text=SJ&aspect=1:1&seed=1' },
-                      { name: 'Michael Chen', role: 'Chief Technology Officer', image: 'https://api.a0.dev/assets/image?text=MC&aspect=1:1&seed=2' },
-                      { name: 'Dr. Elena Rodriguez', role: 'Head of Research', image: 'https://api.a0.dev/assets/image?text=ER&aspect=1:1&seed=3' },
+                      { name: 'Dr. Sarah Johnson', role: 'CEO & Founder', image: 'https://api.a0.dev/assets/image?text=Dr. Sarah Johnson&aspect=1:1&seed=sarah' },
+                      { name: 'Michael Chen', role: 'Chief Technology Officer', image: 'https://api.a0.dev/assets/image?text=Michael Chen&aspect=1:1&seed=michael' },
+                      { name: 'Dr. Elena Rodriguez', role: 'Head of Research', image: 'https://api.a0.dev/assets/image?text=Dr. Elena Rodriguez&aspect=1:1&seed=elena' },
                     ].map((member, index) => (
                       <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
                         <CardContent className="pt-6">
@@ -148,6 +177,37 @@ const About = (): JSX.Element => {
           </Card>
         </div>
 
+        {/* Timeline Section */}
+        <div className="py-20">
+          <h2 className="text-3xl font-bold text-center mb-16">Our Journey</h2>
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-green-400 to-blue-500 rounded-full" />
+            {[
+              { year: '2000', title: 'The Genesis', desc: 'TAT GLOBAL was founded with a clear mission: to revolutionize the fertilizer industry through sustainable and innovative solutions. We started with a small team of passionate agronomists and scientists.' },
+              { year: '2005', title: 'First Breakthrough', desc: 'We launched our first patented slow-release fertilizer, significantly reducing nutrient runoff and improving crop yields for our initial partners in North America.' },
+              { year: '2010', title: 'Global Expansion', desc: 'Recognizing the growing demand for sustainable agriculture, we expanded our operations to Europe and Asia, establishing key partnerships and distribution channels.' },
+              { year: '2015', title: 'Innovation Milestone', desc: 'Our R&D team developed a groundbreaking bio-fertilizer, harnessing the power of microbes to enhance soil health and plant resilience. This marked a new era of eco-friendly products.' },
+              { year: '2020', title: 'Sustainability & Digitalization', desc: 'We achieved carbon-neutral production across all our facilities and launched a digital platform to provide farmers with real-time data and precision agriculture advice.' },
+              { year: '2025', title: 'Future Forward', desc: 'Today, TAT GLOBAL is a leader in the agricultural sector, serving over 100,000 farmers in 50+ countries. We continue to push the boundaries of science and technology to create a sustainable future for all.' },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className={`flex items-center mb-8 ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+                  <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+                    <CardContent className="p-6">
+                      <div className="text-2xl font-bold text-green-600 mb-2">{item.year}</div>
+                      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                      <p className="text-gray-600">{item.desc}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+                <div className="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10" />
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
@@ -173,6 +233,32 @@ const About = (): JSX.Element => {
           </Accordion>
         </div>
       </div>
+
+      {/* Call to Action */}
+      <div className="bg-green-600 py-20">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Grow with Us?</h2>
+          <p className="text-xl text-green-100 mb-8">Explore our innovative fertilizer solutions or get in touch with our team of experts to find the perfect product for your needs.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              size="lg"
+              className="bg-white text-green-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg"
+              onClick={() => window.location.href='/products'}
+            >
+              Explore Products
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-green-600 hover:scale-105 transition-all duration-300 shadow-lg"
+              onClick={() => window.location.href='/contact'}
+            >
+              Contact Us
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   )

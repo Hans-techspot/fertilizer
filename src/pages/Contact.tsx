@@ -1,25 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import { Icon } from 'leaflet'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import Footer from '@/components/Footer'
 
 const Contact = (): JSX.Element => {
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', subject: '', message: '' });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Here you would typically send the form data to a server
+    console.log(formData);
+    setIsSubmitted(true);
+  };
+
   // Coordinates for Farmville, USA (approximate)
-  const position: [number, number] = [37.2985, -78.3967]
+  const position: [number, number] = [37.2985, -78.3967];
+
+  const customIcon = new Icon({
+    iconUrl: '/logo.svg',
+    iconSize: [40, 40],
+  });
+
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Contact Us</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Get in touch with our team of agricultural experts. We're here to help you with all your fertilizer needs.</p>
+        <div className="text-center mb-16 relative bg-cover bg-center py-20 rounded-lg" style={{backgroundImage: 'url(https://api.a0.dev/assets/image?text=Contact%20Us&aspect=16:9&seed=contact)'}}>
+          <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+          <div className="relative">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Contact Us</h1>
+            <p className="text-xl text-gray-200 max-w-3xl mx-auto">Get in touch with our team of agricultural experts. We're here to help you with all your fertilizer needs.</p>
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+        <motion.div
+          className="grid lg:grid-cols-2 gap-12 mb-16"
+          initial="initial"
+          animate="animate"
+          variants={{ animate: { transition: { staggerChildren: 0.2 } } }}
+        >
           {/* Contact Information */}
-          <div className="space-y-8">
+          <motion.div className="space-y-8" variants={fadeInUp}>
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Get In Touch</h2>
               <div className="space-y-6">
@@ -57,70 +92,93 @@ const Contact = (): JSX.Element => {
                 </div>
               </div>
             </div>
+          </motion.div>
 
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-lg shadow-lg">
+          <motion.div className="bg-white p-8 rounded-lg shadow-lg" variants={fadeInUp}>
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              {isSubmitted ? (
+                <div className="text-center p-8 bg-green-50 rounded-lg">
+                  <h3 className="text-2xl font-bold text-green-700 mb-4">Thank You!</h3>
+                  <p className="text-gray-600">Your message has been sent successfully. We will get back to you shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="John"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="Doe"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                     <input
-                      type="text"
-                      id="firstName"
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="John"
+                      placeholder="john@example.com"
+                      required
                     />
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
                     <input
                       type="text"
-                      id="lastName"
+                      id="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Doe"
+                      placeholder="How can we help you?"
+                      required
                     />
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="john@example.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="How can we help you?"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea
-                    id="message"
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Tell us about your fertilizer needs..."
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold"
-                >
-                  Send Message
-                </button>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea
+                      id="message"
+                      rows={6}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      placeholder="Tell us about your fertilizer needs..."
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                  >
+                    Send Message
+                  </button>
               </form>
-            </div>
-          </div>
+              )}
+            </motion.div>
+          </motion.div>
 
           {/* Map Section */}
-          <div className="bg-white p-8 rounded-lg shadow-lg">
+          <motion.div className="bg-white p-8 rounded-lg shadow-lg" variants={fadeInUp}>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Find Us</h3>
             <div className="h-96 rounded-lg overflow-hidden">
               <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
@@ -128,7 +186,7 @@ const Contact = (): JSX.Element => {
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position}>
+                <Marker position={position} icon={customIcon}>
                   <Popup>
                     <div className="text-center">
                       <strong>TAT GLOBAL COMPANY LIMITED</strong><br />
@@ -143,11 +201,11 @@ const Contact = (): JSX.Element => {
             <div className="mt-4 text-sm text-gray-600">
               <p>Our headquarters is located in the heart of agricultural country. Visit us for personalized consultations and product demonstrations.</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Additional Information */}
-        <div className="grid md:grid-cols-3 gap-8 text-center">
+        <motion.div className="grid md:grid-cols-3 gap-8 text-center" variants={fadeInUp}>
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Technical Support</h3>
             <p className="text-gray-600">Get expert advice on fertilizer application, crop nutrition, and soil health management.</p>
@@ -160,7 +218,7 @@ const Contact = (): JSX.Element => {
             <h3 className="text-xl font-bold text-gray-900 mb-4">Partnerships</h3>
             <p className="text-gray-600">Interested in becoming a distributor? Contact us to discuss partnership opportunities.</p>
           </div>
-        </div>
+        </motion.div>
       </div>
       <Footer />
     </div>
