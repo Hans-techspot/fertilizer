@@ -130,14 +130,6 @@ jobs:
           echo "Config preview:"
           cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/'
       
-      - name: 🔍 Verify API Key
-        run: |
-          if [ -z "${{ secrets.CODESTRAL_API_KEY }}" ]; then
-            echo "❌ ERROR: CODESTRAL_API_KEY is not set!"
-            echo "Please add your Codestral API key to GitHub Secrets"
-            exit 1
-          fi
-          echo "✅ API key is configured"
       
       - name: 🔍 Generate branch name
         id: branch_name
