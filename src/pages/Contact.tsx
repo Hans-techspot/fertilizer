@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
-import Footer from '@/components/Footer'
 
 // ✅ Fix for default markers in react-leaflet (Leaflet loses its default icons in Vite builds)
 const DefaultIcon = L.icon({
@@ -166,7 +165,6 @@ const Contact = (): JSX.Element => {
           </Card>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
