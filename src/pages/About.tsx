@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Award, Users, Target, Globe } from 'lucide-react'
 import { useInView } from 'framer-motion'
-import Footer from '@/components/Footer'
 
 const About = (): JSX.Element => {
   const [activeTab, setActiveTab] = useState('mission')
@@ -173,7 +172,6 @@ const About = (): JSX.Element => {
           </Accordion>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
