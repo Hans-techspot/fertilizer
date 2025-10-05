@@ -1,0 +1,148 @@
+name: Autonomous Issue Resolver
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+jobs:
+  resolve-issue:
+    runs-on: ubuntu-latest
+    # Only run if issue has 'bug' or 'enhancement' label, or if comment contains '/resolve'
+    if: |
+      (github.event_name == 'issues' && (contains(github.event.issue.labels.*.name, 'bug') || contains(github.event.issue.labels.*.name, 'enhancement'))) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/resolve'))
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Install opencode
+        run: curl -fsSL https://opencode.ai/install | bash
+      
+      - name: Analyze and resolve issue
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO_NAME: ${{ github.repository }}
+          OPENCODE_PERMISSION: |
+            {
+              "bash": {
+                "gh *": "allow",
+                "git *": "allow",
+                "npm *": "allow",
+                "pip *": "allow",
+                "python *": "allow",
+                "node *": "allow",
+                "cargo *": "allow",
+                "go *": "allow",
+                "rm -rf *": "deny",
+                "rm -fr *": "deny",
+                "*": "allow"
+              },
+              "filesystem": {
+                ".git/config": "deny",
+                ".github/workflows/*": "read",
+                "*": "allow"
+              },
+              "webfetch": "allow"
+            }
+        run: |
+          opencode run -m anthropic/claude-sonnet-4-20250514 "You are an autonomous coding agent tasked with resolving GitHub issues.
+          
+          CURRENT TASK:
+          Issue #${ISSUE_NUMBER} in repository ${REPO_NAME}
+          
+          WORKFLOW:
+          1. ANALYZE THE ISSUE:
+             - Use 'gh issue view ${ISSUE_NUMBER}' to get full issue details
+             - Understand the problem, bug report, or feature request
+             - Identify affected files and components
+          
+          2. CHECK FOR DUPLICATES:
+             - Search existing issues using 'gh issue list --limit 100 --json number,title,body,state'
+             - If duplicate found, comment and close this issue (do not proceed)
+          
+          3. INVESTIGATE THE CODEBASE:
+             - Explore relevant files mentioned in the issue
+             - Search for related code using grep or file exploration
+             - Understand the current implementation
+             - Run tests if applicable to confirm the issue
+          
+          4. CREATE A SOLUTION:
+             - Create a new branch: 'git checkout -b fix/issue-${ISSUE_NUMBER}'
+             - Implement the fix or feature
+             - Write clean, maintainable code following the project's style
+             - Add or update tests if needed
+             - Ensure no breaking changes
+          
+          5. VERIFY YOUR SOLUTION:
+             - Run existing tests to ensure nothing breaks
+             - Test your specific changes
+             - Review your code for quality
+          
+          6. COMMIT AND PUSH:
+             - Stage your changes: 'git add <files>'
+             - Commit with descriptive message: 'git commit -m \"fix: resolve issue #${ISSUE_NUMBER} - <brief description>\"'
+             - Push branch: 'git push origin fix/issue-${ISSUE_NUMBER}'
+          
+          7. CREATE PULL REQUEST:
+             - Use 'gh pr create' with:
+               * Title: 'Fix #${ISSUE_NUMBER}: <clear, concise description>'
+               * Body should include:
+                 - Summary of changes
+                 - How it fixes the issue
+                 - Testing performed
+                 - Any breaking changes or notes
+               * Link to the issue: 'Fixes #${ISSUE_NUMBER}'
+          
+          8. COMMENT ON ISSUE:
+             - Post a comment on the issue with:
+               * Brief explanation of the fix
+               * Link to the PR
+               * Any additional context
+          
+          IMPORTANT GUIDELINES:
+          - If the issue is unclear, comment asking for clarification (do not create PR)
+          - If the issue requires architectural changes, comment with a proposal first
+          - If you cannot resolve it, explain why in a comment
+          - Always prioritize code quality and maintainability
+          - Follow existing code patterns and conventions
+          - Be cautious with dependencies and external changes
+          - If tests fail, investigate and fix them
+          
+          ERROR HANDLING:
+          - If any step fails, document the error in an issue comment
+          - Do not leave the repository in a broken state
+          - If you cannot complete the task, explain what you attempted and why it failed
+          
+          OUTPUT:
+          Provide a summary at the end with:
+          - What you did
+          - PR number (if created)
+          - Any warnings or notes for human review
+          
+          Begin your investigation now."
+      
+      - name: Cleanup on failure
+        if: failure()
+        run: |
+          # Reset any uncommitted changes
+          git reset --hard HEAD
+          git checkout main || git checkout master
+          # Post failure comment
+          gh issue comment ${{ github.event.issue.number }} --body "⚠️ Automated resolution attempt failed. A human developer may need to investigate this issue manually. Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
