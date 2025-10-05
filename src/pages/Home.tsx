@@ -62,74 +62,111 @@ const Home = (): JSX.Element => {
     transition: { duration: 0.8 }
   }
 
+  
   const products = [
-  {
-    id: 1,
-    name: 'Sodium Molybdate',
-    category: 'micronutrients',
+    {
+    id: 0,
+    name: 'Automotive Grade Urea',
+    category: 'specialty',
     price: 'Contact Us',
     rating: 4.8,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/Sodium-Molybdate.jpg',
-    description: 'Top quality fertilizer for sale. Sodium Molybdate, Dihydrate is used in the manufacturing of inorganic and organic pigments, as a corrosion inhibitor, as a bath additive for finishing metals finishing, as a reagent for alkaloids, and as an essential micronutrient for plants and animal.',
-    features: ['High purity', 'Essential micronutrient', 'Industrial applications'],
-    benefits: ['Improved plant health', 'Enhanced chlorophyll production', 'Better nitrogen fixation'],
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/Automotive-Grade-Urea.webp',
+    description: 'Automotive Grade Urea is a special, uncoated version of the highest purity. It is the main component of urea solutions like AdBlue® or AUS40/45 which are used within SCR systems for the reason of NOx reduction.',
+    features: ['Highest purity', 'Uncoated', 'SCR systems'],
+    benefits: ['NOx reduction', 'Emission control', 'Environmental compliance'],
+  },
+    {
+    id: 1,
+    name: 'Diammonium Phosphate (DAP)',
+    category: 'phosphorus',
+    price: 'Contact Us',
+    rating: 4.8,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/Diammonium-Phosphate-DAP-1024x1024.jpg',
+    description: 'It’s formulated in a controlled reaction of phosphoric acid with ammonia, where the hot slurry is then cooled, granulated and sieved. The standard nutrient grade of DAP is relatively high, at 18-46-0.',
+    features: ['High nutrient grade', 'Granulated', 'Controlled reaction'],
+    benefits: ['Phosphorus and nitrogen', 'Root development', 'Early growth'],
   },
   {
     id: 2,
-    name: 'Copper(II) Sulfate Pentahydrate',
-    category: 'micronutrients',
+    name: 'Single superphosphate(TSP)',
+    category: 'phosphorus',
     price: 'Contact Us',
-    rating: 4.9,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/CopperII-Sulfate-Pentahydrate.jpg',
-    description: 'Copper(II) sulfate, also known as copper sulphate, is an inorganic compound with the chemical formula CuSO4. It forms hydrates CuSO4·nH2O, where n can range from 1 to 7. The pentahydrate (n = 5), a bright blue crystal, is the most commonly.',
-    features: ['Bright blue crystals', 'Multiple hydrates', 'Versatile applications'],
-    benefits: ['Disease prevention', 'Enzyme activation', 'Soil amendment'],
+    rating: 4.7,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/phos1-scaled-1-1024x1024.jpg',
+    description: 'TSP is a solid single-nutrient phosphate fertilizer material produced from phosphate rock and phosphoric acid. TSP contains 44–46% anhydrous phosphoric acid (P2O5), more than twice the P2O5 content of normal superphosphate.',
+    features: ['High P2O5 content', 'Single nutrient', 'Solid fertilizer'],
+    benefits: ['Phosphorus availability', 'Soil fertility', 'Crop nutrition'],
   },
   {
     id: 3,
-    name: 'Zinc Sulfate Heptahydrate',
-    category: 'micronutrients',
+    name: 'Sulphate of potash (SOP)',
+    category: 'potassium',
     price: 'Contact Us',
-    rating: 4.7,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/zinc-sulfate-heptahydrate.webp',
-    description: 'Fertiliser for sale. Zinc Sulfate Heptahydrate is a moderately water and acid soluble Zinc source for uses compatible with sulfates. Sulfate compounds are salts or esters of sulfuric acid formed by replacing one or both of the hydrogens with a metal.',
-    features: ['Water soluble', 'Acid compatible', 'Sulfate source'],
-    benefits: ['Zinc deficiency correction', 'Plant growth enhancement', 'Improved crop quality'],
+    rating: 4.9,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/Sulphate-of-potash-SOP.png',
+    description: 'Potassium sulfate or potassium sulphate, also called sulphate of potash, arcanite, or archaically potash of sulfur, is the inorganic compound with formula K₂SO₄, a white water-soluble solid. It is commonly used in fertilizers, providing both potassium and sulfur.',
+    features: ['Chloride free', 'Sulfate source', 'Premium potassium'],
+    benefits: ['Potassium nutrition', 'Sulfur supply', 'Quality crops'],
   },
   {
     id: 4,
-    name: 'Manganese(II) Sulfate Monohydrate',
-    category: 'micronutrients',
+    name: 'NPK 15-15-15',
+    category: 'compound',
     price: 'Contact Us',
-    rating: 4.6,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/manganeseii-sulfate-monohydrate.jpeg',
-    description: 'This is due to the formation of MnSO4 during the reaction which acts as a catalyst for the same reaction. Thus, MnSO4 is an ” auto catalyst ” for this reaction. This is an example of auto catalyst.',
-    features: ['Auto catalyst', 'Reaction intermediate', 'Industrial applications'],
-    benefits: ['Catalytic properties', 'Reaction acceleration', 'Process efficiency'],
+    rating: 4.8,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/NPK-15-15-15.jpg',
+    description: 'The 15-15-15 (12) complex fertilizer with sulphur is a highly-versatile fertilizer, with a perfect balance of nitrogen, phosphorus and potassium that makes it one of the most used fertilizers for use during sowing as it covers the needs of crops after sowing.',
+    features: ['Balanced NPK', 'Sulfur included', 'Versatile use'],
+    benefits: ['Complete nutrition', 'Sowing fertilizer', 'Crop establishment'],
   },
   {
     id: 5,
-    name: 'Boric Acid',
-    category: 'micronutrients',
+    name: 'Monoammonium phosphate (MAP)',
+    category: 'phosphorus',
     price: 'Contact Us',
-    rating: 4.8,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/boric-acid.jpg',
-    description: 'Boric acid is a water-soluble compound containing oxygen, boron, and hydrogen. It’s a white substance that comes in powder or crystal form. Researchers believe boric acid has antifungal and antibacterial properties.',
-    features: ['Water soluble', 'Antifungal properties', 'Antibacterial effects'],
-    benefits: ['Disease control', 'Plant health improvement', 'Yield enhancement'],
+    rating: 4.9,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/monoammonium-phosphate-map.jpg',
+    description: 'Monoammonium phosphate (MAP) is a widely used source of phosphorus (P) and nitrogen (N).* It’s made of two constituents common in the fertilizer industry and contains the most phosphorus of any common solid fertilizer.',
+    features: ['High phosphorus', 'Nitrogen source', 'Widely used'],
+    benefits: ['Phosphorus efficiency', 'Nitrogen supply', 'Crop performance'],
   },
   {
     id: 6,
-    name: 'Ferric DTPA',
-    category: 'chelates',
+    name: 'Muriate of Potash (MOP)',
+    category: 'potassium',
     price: 'Contact Us',
-    rating: 4.9,
-    image: 'https://diga-as.com/wp-content/uploads/2023/03/Ferric-DTPA.jpg',
-    description: 'Ferric DTPA is a pure liquid Iron fertilizer. Iron DTPA is adviced for hydroponics. Our product is a stable, translucent solution and is recommended at different phenological stages. The high level of Iron in our formula improves the production of chlorophyll.',
-    features: ['Liquid iron fertilizer', 'Hydroponics suitable', 'Stable solution'],
-    benefits: ['Chlorophyll production', 'Iron deficiency correction', 'Plant vitality'],
-  },]
-     
+    rating: 4.7,
+    image: 'https://diga-as.com/wp-content/uploads/2022/10/MOP-1.jpg',
+    description: 'Bolder granules ensure maximum utilization efficiency of applied Potash with minimum losses. Can be applied to crops independently, based on a soil test. Better quality of produce. Reduces cost of pest management.',
+    features: ['Bolder granules', 'Efficient utilization', 'Soil test based'],
+    benefits: ['Potassium efficiency', 'Quality produce', 'Pest management'],
+  },
+  
+  ]
+
+  const testimonials = [
+    {
+      name: 'John Farmer',
+      role: 'Corn Farmer, Iowa',
+      content: 'TAT GLOBAL fertilizers increased my corn yield by 30% this season. The quality is unmatched!',
+      rating: 5,
+      image: 'https://api.a0.dev/assets/image?text=John Farmer&aspect=1:1&seed=john',
+    },
+    {
+      name: 'Maria Rodriguez',
+      role: 'Vineyard Owner, Spain',
+      content: 'Their sustainable solutions helped us achieve organic certification while maintaining productivity.',
+      rating: 5,
+      image: 'https://api.a0.dev/assets/image?text=Maria Rodriguez&aspect=1:1&seed=maria',
+    },
+    {
+      name: 'Ahmed Hassan',
+      role: 'Rice Farmer, Egypt',
+      content: 'Reliable delivery and expert support. TAT GLOBAL is our go-to partner for all fertilizer needs.',
+      rating: 5,
+      image: 'https://api.a0.dev/assets/image?text=Ahmed Hassan&aspect=1:1&seed=ahmed',
+    },
+  ]
 
   const testimonials = [
     {
@@ -433,8 +470,75 @@ const Home = (): JSX.Element => {
           </Carousel>
         </div>
       </motion.section>
+ {/* Gallery Section */}
+      <motion.section
+        id="gallery"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-green-50"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" variants={fadeInUp}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Gallery</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our journey and impact through vivid moments from the field.
+            </p>
+          </motion.div>
+          <Carousel className="w-full max-w-4xl mx-auto">
+            <CarouselContent>
+              {[1,2,3,4,5,6].map((num, idx) => (
+                <CarouselItem key={num} className="md:basis-1/2 lg:basis-1/3">
+                  <motion.div
+                    className="p-2 h-full"
+                    initial={{
+                      opacity: 0,
+                      x: idx % 3 === 0 ? -80 : idx % 3 === 1 ? 0 : 80,
+                      y: idx % 2 === 0 ? 30 : -30
+                    }}
+                    whileInView={{
+                      opacity: 1,
+                      x: 0,
+                      y: 0
+                    }}
+                    transition={{
+                      duration: 0.7,
+                      delay: idx * 0.1
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="relative rounded-xl overflow-hidden shadow-lg group h-72 flex items-center justify-center bg-white">
+                      <img
+                        src={`/${num}.jpg`}
+                        alt={`Gallery image ${num}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:rotate-1"
+                        style={{ minHeight: 270, maxHeight: 340 }}
+                      />
+                      <motion.div
+                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center"
+                        whileHover={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+                      >
+                        <motion.div
+                          className="opacity-0 group-hover:opacity-100 rounded-full border-2 border-white px-5 py-2 bg-white/80 text-gray-800 text-lg font-semibold shadow-lg transition-all"
+                          initial={{ y: 30, opacity: 0 }}
+                          whileHover={{ y: 0, opacity: 1 }}
+                        >
+                          View
+                        </motion.div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hover:scale-110 transition-transform" />
+            <CarouselNext className="hover:scale-110 transition-transform" />
+          </Carousel>
+        </div>
+      </motion.section>
 
-      {/* Video Section */}
+        {/* Video Section */}
       <motion.section
         className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white"
         initial="initial"
@@ -465,12 +569,12 @@ const Home = (): JSX.Element => {
                   className="w-full h-full object-cover"
                   controls
                   autoPlay
-                  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  src="https://lzuknbfbvpuscpammwzg.supabase.co/storage/v1/object/public/projects/projects/Nourishing%20the%20World%20Together-VEED%20(1).mp4"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center relative cursor-pointer" onClick={() => setIsVideoPlaying(true)}>
                   <img
-                    src="https://api.a0.dev/assets/image?text=Agriculture Video&aspect=16:9&seed=video"
+                    src="https://api.a0.dev/assets/image?text=TAT Global&aspect=16:9&seed=video"
                     alt="Agriculture Video Thumbnail"
                     className="w-full h-full object-cover"
                   />
