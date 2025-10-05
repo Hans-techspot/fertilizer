@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -8,6 +9,7 @@ import { ShoppingCart, Star, Truck, Shield } from 'lucide-react'
 import Footer from '@/components/Footer'
 
 const Products = (): JSX.Element => {
+  const navigate = useNavigate()
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
 
  const products = [
@@ -303,7 +305,7 @@ const Products = (): JSX.Element => {
 
         {/* Product Details Dialog */}
         <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
             {selectedProduct && (
               <>
                 <DialogHeader>
@@ -346,7 +348,7 @@ const Products = (): JSX.Element => {
                         </ul>
                       </TabsContent>
                     </Tabs>
-                    <Button className="w-full mt-6" size="lg">Contact Us for Pricing</Button>
+                    <Button className="w-full mt-6" size="lg" onClick={() => navigate('/contact')}>Contact Us for Pricing</Button>
                   </div>
                 </div>
               </>
@@ -358,7 +360,7 @@ const Products = (): JSX.Element => {
         <div className="bg-green-600 text-white rounded-lg p-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Need Custom Fertilizer Solutions?</h2>
           <p className="text-xl mb-6">Our experts can create tailored blends for your specific agricultural needs.</p>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">Contact Our Specialists</Button>
+          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600" onClick={() => navigate('/contact')}>Contact Our Specialists</Button>
         </div>
       </div>
       <Footer />
