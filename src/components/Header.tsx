@@ -15,7 +15,7 @@ const Header = (): JSX.Element => {
 
   return (
     <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md z-50 border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0">
             <img src="/logo.svg" alt="TAT GLOBAL" className="h-10" />

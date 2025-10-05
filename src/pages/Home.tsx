@@ -180,7 +180,7 @@ const Home = (): JSX.Element => {
       {/* Hero Section */}
       <motion.section
         id="home"
-        className="relative pb-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground overflow-hidden"
+        className="relative pb-12 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -271,7 +271,7 @@ const Home = (): JSX.Element => {
       {/* Stats Section */}
       <motion.section
         id="stats"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -322,7 +322,7 @@ const Home = (): JSX.Element => {
       {/* Features Section */}
       <motion.section
         id="features"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -365,7 +365,7 @@ const Home = (): JSX.Element => {
       {/* Products Section */}
       <motion.section
         id="products"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -429,7 +429,7 @@ const Home = (): JSX.Element => {
       {/* Gallery Section */}
       <motion.section
         id="gallery"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -495,7 +495,7 @@ const Home = (): JSX.Element => {
       </motion.section>
       {/* Video Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary text-secondary-foreground"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-secondary text-secondary-foreground"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -554,7 +554,7 @@ const Home = (): JSX.Element => {
 
       {/* Timeline Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -591,7 +591,7 @@ const Home = (): JSX.Element => {
 
       {/* Testimonials Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -658,7 +658,7 @@ const Home = (): JSX.Element => {
 
       {/* Services Preview */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -701,7 +701,7 @@ const Home = (): JSX.Element => {
 
       {/* Why Sustainable Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -745,7 +745,7 @@ const Home = (): JSX.Element => {
 
       {/* Global Reach Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -781,7 +781,7 @@ const Home = (): JSX.Element => {
 
       {/* Call to Action */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground relative overflow-hidden"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground relative overflow-hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}

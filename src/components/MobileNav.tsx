@@ -26,8 +26,8 @@ export function MobileNav() {
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="bg-background flex flex-col rounded-t-[10px] h-full w-[80%] max-w-sm mt-24 fixed bottom-0 left-0">
-          <div className="p-4 bg-background flex-1 h-full">
+        <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-full w-[80%] max-w-sm mt-24 fixed bottom-0 left-0 border-r border-border shadow-xl">
+          <div className="p-4 flex-1 h-full">
             <div className="max-w-md mx-auto">
               <Drawer.Title className="font-medium mb-4">
                 Menu
