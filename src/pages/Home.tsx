@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,6 +10,7 @@ import { Award, Leaf, Tractor, Star, Users, TrendingUp, Zap, Shield, CheckCircle
 import Footer from '@/components/Footer'
 
 const Home = (): JSX.Element => {
+  const navigate = useNavigate()
   const [scrollY, setScrollY] = useState(0)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
@@ -243,7 +245,7 @@ const Home = (): JSX.Element => {
             <Button
               size="lg"
               className="bg-white text-green-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              onClick={() => scrollToSection('products')}
+              onClick={() => navigate('/products')}
             >
               Explore Products
             </Button>
