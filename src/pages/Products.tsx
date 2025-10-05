@@ -6,7 +6,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ShoppingCart, Star, Truck, Shield } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import Footer from '@/components/Footer'
 
 const Products = (): JSX.Element => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
@@ -364,7 +363,6 @@ const Products = (): JSX.Element => {
           <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">Contact Our Specialists</Button>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
