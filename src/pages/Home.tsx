@@ -168,30 +168,6 @@ const Home = (): JSX.Element => {
     },
   ]
 
-  const testimonials = [
-    {
-      name: 'John Farmer',
-      role: 'Corn Farmer, Iowa',
-      content: 'TAT GLOBAL fertilizers increased my corn yield by 30% this season. The quality is unmatched!',
-      rating: 5,
-      image: 'https://api.a0.dev/assets/image?text=John Farmer&aspect=1:1&seed=john',
-    },
-    {
-      name: 'Maria Rodriguez',
-      role: 'Vineyard Owner, Spain',
-      content: 'Their sustainable solutions helped us achieve organic certification while maintaining productivity.',
-      rating: 5,
-      image: 'https://api.a0.dev/assets/image?text=Maria Rodriguez&aspect=1:1&seed=maria',
-    },
-    {
-      name: 'Ahmed Hassan',
-      role: 'Rice Farmer, Egypt',
-      content: 'Reliable delivery and expert support. TAT GLOBAL is our go-to partner for all fertilizer needs.',
-      rating: 5,
-      image: 'https://api.a0.dev/assets/image?text=Ahmed Hassan&aspect=1:1&seed=ahmed',
-    },
-  ]
-
   const timeline = [
     { year: '2000', title: 'Founded', desc: 'TAT GLOBAL established with a vision for sustainable agriculture.' },
     { year: '2010', title: 'Global Expansion', desc: 'Expanded operations to 30+ countries worldwide.' },
