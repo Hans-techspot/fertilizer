@@ -1,0 +1,242 @@
+name: Autonomous Issue Resolver (Codestral)
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+jobs:
+  resolve-issue:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'issues' && (contains(github.event.issue.labels.*.name, 'bug') || contains(github.event.issue.labels.*.name, 'enhancement'))) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/resolve'))
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Install opencode
+        run: curl -fsSL https://opencode.ai/install | bash
+      
+      - name: Create opencode config for Codestral
+        run: |
+          mkdir -p ~/.opencode
+          cat > ~/.opencode/config.yaml << 'EOF'
+          providers:
+            codestral:
+              name: "Codestral"
+              module: "@ai-sdk/openai-compatible"
+              options:
+                baseURL: "https://codestral.mistral.ai/v1"
+                apiKey: "${{ secrets.CODESTRAL_API_KEY }}"
+              models:
+                latest:
+                  id: "codestral-latest"
+                  name: "Codestral Latest"
+                2501:
+                  id: "codestral-2501"
+                  name: "Codestral 2501"
+          
+          defaultModel: "codestral/2501"
+          EOF
+      
+      - name: Analyze and resolve issue with Codestral
+        env:
+          CODESTRAL_API_KEY: ${{ secrets.CODESTRAL_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO_NAME: ${{ github.repository }}
+          OPENCODE_PERMISSION: |
+            {
+              "bash": {
+                "gh *": "allow",
+                "git *": "allow",
+                "npm *": "allow",
+                "pip *": "allow",
+                "python *": "allow",
+                "node *": "allow",
+                "cargo *": "allow",
+                "go *": "allow",
+                "make *": "allow",
+                "mvn *": "allow",
+                "gradle *": "allow",
+                "rm -rf *": "deny",
+                "rm -fr *": "deny",
+                "*": "allow"
+              },
+              "filesystem": {
+                ".git/config": "deny",
+                ".github/workflows/*": "read",
+                "*": "allow"
+              },
+              "webfetch": "allow"
+            }
+        run: |
+          opencode run -m codestral/2501 "You are an autonomous coding agent powered by Codestral, specialized in understanding and fixing code issues across 80+ programming languages.
+          
+          CURRENT TASK:
+          Issue #${ISSUE_NUMBER} in repository ${REPO_NAME}
+          
+          WORKFLOW:
+          1. ANALYZE THE ISSUE:
+             - Use 'gh issue view ${ISSUE_NUMBER}' to get full issue details
+             - Understand the problem: bug report, feature request, or code improvement
+             - Identify affected files, programming language, and framework
+             - Look for error messages, stack traces, or reproduction steps
+          
+          2. CHECK FOR DUPLICATES:
+             - Search existing issues: 'gh issue list --limit 100 --json number,title,body,state'
+             - If duplicate found, comment with reference and close (do not proceed with fix)
+          
+          3. INVESTIGATE THE CODEBASE:
+             - Explore relevant files mentioned in the issue
+             - Use grep/find to locate related code patterns
+             - Read the current implementation thoroughly
+             - Identify the root cause of the issue
+             - Check for similar patterns elsewhere in the codebase
+             - Run tests if available to reproduce the issue
+          
+          4. DESIGN THE SOLUTION:
+             - Plan your fix or feature implementation
+             - Consider edge cases and potential side effects
+             - Ensure backward compatibility
+             - Follow the existing code style and patterns
+             - Think about test coverage
+          
+          5. IMPLEMENT THE SOLUTION:
+             - Create a new branch: 'git checkout -b fix/issue-${ISSUE_NUMBER}'
+             - Make your code changes
+             - Write clean, well-documented code
+             - Add comments for complex logic
+             - Update or add tests to cover your changes
+             - Update documentation if needed
+          
+          6. VERIFY YOUR SOLUTION:
+             - Run the test suite to ensure nothing breaks
+             - Test your specific changes manually if needed
+             - Check for linting/formatting issues
+             - Review your own code for quality
+             - Ensure the fix actually resolves the reported issue
+          
+          7. COMMIT AND PUSH:
+             - Stage changes: 'git add <files>'
+             - Write a descriptive commit message:
+               Format: 'fix: resolve issue #${ISSUE_NUMBER} - <brief description>'
+               Body: Explain what was wrong and how you fixed it
+             - Push: 'git push origin fix/issue-${ISSUE_NUMBER}'
+          
+          8. CREATE PULL REQUEST:
+             Use 'gh pr create' with:
+             - Title: 'Fix #${ISSUE_NUMBER}: <clear, concise description>'
+             - Body template:
+               ## Summary
+               Brief explanation of the fix
+               
+               ## Changes Made
+               - List key changes
+               - Mention files modified
+               
+               ## Root Cause
+               Explain what was causing the issue
+               
+               ## Solution
+               Describe how your fix resolves it
+               
+               ## Testing
+               - How you tested the fix
+               - Test cases added/modified
+               
+               ## Additional Notes
+               Any breaking changes, migration steps, or important context
+               
+               Fixes #${ISSUE_NUMBER}
+          
+          9. COMMENT ON ISSUE:
+             Post a summary comment:
+             '✅ I've analyzed and created a fix for this issue!
+             
+             **Root Cause:** [brief explanation]
+             
+             **Solution:** [brief explanation]
+             
+             **PR:** #[pr_number]
+             
+             Please review the PR and let me know if you need any adjustments!'
+          
+          SPECIAL CAPABILITIES (Codestral):
+          - You excel at multi-language code understanding
+          - You can handle complex codebases with large context (256k tokens)
+          - You understand framework-specific patterns (React, Django, Spring, etc.)
+          - You can write idiomatic code in any language
+          - You're trained on real-world code patterns and best practices
+          
+          IMPORTANT GUIDELINES:
+          - If the issue is unclear or missing info, comment asking for:
+            * Reproduction steps
+            * Expected vs actual behavior
+            * Environment details
+            * Code snippets or error logs
+          - If the fix requires architectural changes, comment with:
+            * Proposed solution approach
+            * Trade-offs and alternatives
+            * Request for feedback before implementing
+          - If you cannot resolve it, explain:
+            * What you investigated
+            * Why it's complex/blocked
+            * What information or decisions are needed
+          - Always prioritize:
+            * Code correctness and safety
+            * Performance and efficiency
+            * Maintainability and readability
+            * Test coverage
+            * Documentation
+          
+          ERROR HANDLING:
+          - If tests fail, investigate and fix them before creating PR
+          - If build fails, fix the build issues
+          - If you break something, revert and try a different approach
+          - Document any trade-offs or technical debt in PR description
+          - Never leave the repository in a broken state
+          
+          QUALITY CHECKLIST (before creating PR):
+          ✓ Tests pass
+          ✓ Code follows project style
+          ✓ No new warnings or errors
+          ✓ Changes are minimal and focused
+          ✓ Documentation is updated if needed
+          ✓ Commit messages are clear
+          
+          Begin your investigation and resolution now. Show your work by documenting your analysis and decision-making process."
+      
+      - name: Cleanup on failure
+        if: failure()
+        run: |
+          git reset --hard HEAD
+          git checkout main || git checkout master
+          gh issue comment ${{ github.event.issue.number }} --body "⚠️ **Automated resolution attempt failed**
+
+          I encountered an error while trying to resolve this issue automatically. A human developer may need to investigate this manually.
+          
+          **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          Common reasons for failure:
+          - Issue requires human judgment or architectural decisions
+          - Tests are failing and need manual investigation  
+          - Complex dependencies or environment setup required
+          - Issue description needs more detail
+          
+          Feel free to add more context or the \`manual-review\` label for human attention."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
