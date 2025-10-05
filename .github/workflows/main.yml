@@ -102,14 +102,22 @@ jobs:
         run: |
           echo "⚙️ Configuring Codestral..."
           mkdir -p ~/.opencode
-          cat > ~/.opencode/config.yaml << 'EOF'
+          
+          # Use hardcoded key as fallback for testing
+          API_KEY="${{ secrets.CODESTRAL_API_KEY }}"
+          if [ -z "$API_KEY" ]; then
+            echo "⚠️ Using fallback API key for testing"
+            API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
+          fi
+          
+          cat > ~/.opencode/config.yaml << EOF
           providers:
             codestral:
               name: "Codestral"
               module: "@ai-sdk/openai-compatible"
               options:
                 baseURL: "https://codestral.mistral.ai/v1"
-                apiKey: "${{ secrets.CODESTRAL_API_KEY }}"
+                apiKey: "${API_KEY}"
               models:
                 agent:
                   id: "codestral-2501"
@@ -118,8 +126,9 @@ jobs:
           EOF
           echo "✅ Configuration complete"
           
-          # Verify config
-          cat ~/.opencode/config.yaml
+          # Verify config (mask the key)
+          echo "Config preview:"
+          cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/'
       
       - name: 🔍 Verify API Key
         run: |
@@ -148,7 +157,6 @@ jobs:
       - name: 🤖 Execute Task with Autonomous Agent
         id: agent_execution
         env:
-          CODESTRAL_API_KEY: ${{ secrets.CODESTRAL_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENCODE_PERMISSION: |
             {
@@ -196,6 +204,15 @@ jobs:
           source ~/.bashrc 2>/dev/null || true
           export PATH="$HOME/.opencode/bin:$PATH"
           
+          echo "=== Diagnostics ==="
+          echo "OpenCode version:"
+          opencode --version || echo "Failed to get version"
+          echo ""
+          echo "Config file:"
+          cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/' || echo "No config file"
+          echo ""
+          
+          set +e
           opencode run -m codestral/agent "You are an autonomous coding agent executing this task:
 
           TASK: ${{ github.event.inputs.task_description }}
@@ -215,6 +232,22 @@ jobs:
           7. Create PR if enabled: gh pr create --title '[Copilot] ${{ github.event.inputs.task_type }}: <description>' --base ${{ github.event.inputs.target_branch }}
 
           Execute this task now and show your progress."
+          
+          EXIT_CODE=$?
+          
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo ""
+            echo "=== OpenCode Failed with exit code $EXIT_CODE ==="
+            echo ""
+            echo "Log file contents:"
+            LOG_FILE=$(ls -t ~/.local/share/opencode/log/*.log 2>/dev/null | head -1)
+            if [ -f "$LOG_FILE" ]; then
+              cat "$LOG_FILE"
+            else
+              echo "No log file found"
+            fi
+            exit $EXIT_CODE
+          fi
       
       - name: 📊 Generate Execution Report
         if: always()
