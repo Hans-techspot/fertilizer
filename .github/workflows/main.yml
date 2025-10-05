@@ -1,148 +1,713 @@
-name: Autonomous Issue Resolver
+name: Manual Task Runner
 on:
-  issues:
-    types: [opened, labeled]
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      task_description:
+        description: '📝 Task Description (What do you want the agent to do?)'
+        required: true
+        type: string
+      task_type:
+        description: '🏷️ Task Type'
+        required: true
+        type: choice
+        options:
+          - 'bug-fix'
+          - 'feature'
+          - 'refactor'
+          - 'documentation'
+          - 'testing'
+          - 'optimization'
+          - 'other'
+        default: 'feature'
+      branch_name:
+        description: '🌿 Custom Branch Name (leave empty for auto-generated)'
+        required: false
+        type: string
+      create_pr:
+        description: '📤 Create Pull Request?'
+        required: true
+        type: boolean
+        default: true
+      pr_draft:
+        description: '📋 Create as Draft PR?'
+        required: true
+        type: boolean
+        default: true
+      run_tests:
+        description: '🧪 Run Tests Before Creating PR?'
+        required: true
+        type: boolean
+        default: true
+      target_branch:
+        description: '🎯 Target Branch for PR'
+        required: false
+        type: string
+        default: 'main'
+      additional_context:
+        description: '💡 Additional Context/Instructions (optional)'
+        required: false
+        type: string
 
 jobs:
-  resolve-issue:
+  execute-task:
     runs-on: ubuntu-latest
-    # Only run if issue has 'bug' or 'enhancement' label, or if comment contains '/resolve'
-    if: |
-      (github.event_name == 'issues' && (contains(github.event.issue.labels.*.name, 'bug') || contains(github.event.issue.labels.*.name, 'enhancement'))) ||
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/resolve'))
     permissions:
       contents: write
       issues: write
       pull-requests: write
+      actions: read
     steps:
-      - name: Checkout repository
+      - name: 📊 Display Task Summary
+        run: |
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║              🤖 COPILOT AGENT - TASK EXECUTION              ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "📝 Task Type: ${{ github.event.inputs.task_type }}"
+          echo "🎯 Target Branch: ${{ github.event.inputs.target_branch }}"
+          echo "📤 Create PR: ${{ github.event.inputs.create_pr }}"
+          echo "📋 Draft PR: ${{ github.event.inputs.pr_draft }}"
+          echo "🧪 Run Tests: ${{ github.event.inputs.run_tests }}"
+          echo ""
+          echo "📄 Task Description:"
+          echo "─────────────────────────────────────────────────────────────"
+          echo "${{ github.event.inputs.task_description }}"
+          echo "─────────────────────────────────────────────────────────────"
+          echo ""
+          echo "🚀 Starting autonomous execution..."
+          echo ""
+      
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.inputs.target_branch }}
       
-      - name: Set up Git
+      - name: 🔧 Set up Git identity
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Copilot Agent[bot]"
+          git config user.email "copilot-agent[bot]@users.noreply.github.com"
       
-      - name: Install opencode
-        run: curl -fsSL https://opencode.ai/install | bash
+      - name: 📦 Install opencode
+        run: |
+          echo "📦 Installing OpenCode CLI..."
+          curl -fsSL https://opencode.ai/install | bash
+          echo "✅ OpenCode installed successfully"
       
-      - name: Analyze and resolve issue
+      - name: ⚙️ Configure Codestral
+        run: |
+          echo "⚙️ Configuring Codestral..."
+          mkdir -p ~/.opencode
+          cat > ~/.opencode/config.yaml << 'EOF'
+          providers:
+            codestral:
+              name: "Codestral"
+              module: "@ai-sdk/openai-compatible"
+              options:
+                baseURL: "https://codestral.mistral.ai/v1"
+                apiKey: "${{ secrets.CODESTRAL_API_KEY }}"
+              models:
+                agent:
+                  id: "codestral-2501"
+                  name: "Copilot Agent"
+          defaultModel: "codestral/agent"
+          EOF
+          echo "✅ Configuration complete"
+      
+      - name: 🔍 Generate branch name
+        id: branch_name
+        run: |
+          if [ -n "${{ github.event.inputs.branch_name }}" ]; then
+            BRANCH_NAME="${{ github.event.inputs.branch_name }}"
+          else
+            TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+            TASK_TYPE="${{ github.event.inputs.task_type }}"
+            SLUG=$(echo "${{ github.event.inputs.task_description }}" | head -c 50 | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '-' | sed 's/-$//')
+            BRANCH_NAME="copilot/${TASK_TYPE}/${SLUG}-${TIMESTAMP}"
+          fi
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "🌿 Branch name: ${BRANCH_NAME}"
+      
+      - name: 🤖 Execute Task with Autonomous Agent
+        id: agent_execution
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CODESTRAL_API_KEY: ${{ secrets.CODESTRAL_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          REPO_NAME: ${{ github.repository }}
+          TASK_DESCRIPTION: ${{ github.event.inputs.task_description }}
+          TASK_TYPE: ${{ github.event.inputs.task_type }}
+          BRANCH_NAME: ${{ steps.branch_name.outputs.branch_name }}
+          TARGET_BRANCH: ${{ github.event.inputs.target_branch }}
+          CREATE_PR: ${{ github.event.inputs.create_pr }}
+          PR_DRAFT: ${{ github.event.inputs.pr_draft }}
+          RUN_TESTS: ${{ github.event.inputs.run_tests }}
+          ADDITIONAL_CONTEXT: ${{ github.event.inputs.additional_context }}
+          REPO_FULL: ${{ github.repository }}
+          WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ACTOR: ${{ github.actor }}
           OPENCODE_PERMISSION: |
             {
               "bash": {
                 "gh *": "allow",
                 "git *": "allow",
                 "npm *": "allow",
+                "yarn *": "allow",
+                "pnpm *": "allow",
                 "pip *": "allow",
+                "pip3 *": "allow",
+                "poetry *": "allow",
                 "python *": "allow",
+                "python3 *": "allow",
                 "node *": "allow",
                 "cargo *": "allow",
+                "rustc *": "allow",
                 "go *": "allow",
+                "make *": "allow",
+                "mvn *": "allow",
+                "gradle *": "allow",
+                "docker build *": "allow",
+                "docker run *": "allow",
+                "kubectl *": "deny",
+                "terraform *": "deny",
+                "rm -rf /*": "deny",
+                "rm -fr /*": "deny",
                 "rm -rf *": "deny",
                 "rm -fr *": "deny",
+                "chmod -R 777 *": "deny",
                 "*": "allow"
               },
               "filesystem": {
                 ".git/config": "deny",
+                ".git/hooks/*": "deny",
                 ".github/workflows/*": "read",
+                "/etc/*": "deny",
+                "/usr/*": "deny",
+                "/var/*": "deny",
                 "*": "allow"
               },
               "webfetch": "allow"
             }
         run: |
-          opencode run -m anthropic/claude-sonnet-4-20250514 "You are an autonomous coding agent tasked with resolving GitHub issues.
+          echo "🤖 Launching Copilot Agent..."
+          echo ""
           
-          CURRENT TASK:
-          Issue #${ISSUE_NUMBER} in repository ${REPO_NAME}
+          opencode run -m codestral/agent "You are an elite autonomous coding agent, executing a manually dispatched task with full context and clear objectives.
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                         🎯 TASK ASSIGNMENT                                   ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          👤 REQUESTED BY: ${ACTOR}
+          📦 REPOSITORY: ${REPO_FULL}
+          🏷️ TASK TYPE: ${TASK_TYPE}
+          🌿 BRANCH: ${BRANCH_NAME}
+          🎯 TARGET: ${TARGET_BRANCH}
+          🔗 WORKFLOW: ${WORKFLOW_RUN_URL}
+
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+          📋 TASK DESCRIPTION:
+          ${TASK_DESCRIPTION}
+
+          ${ADDITIONAL_CONTEXT:+💡 ADDITIONAL CONTEXT:
+          ${ADDITIONAL_CONTEXT}
+          }
+
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+          ⚙️ EXECUTION PARAMETERS:
+          • Create Pull Request: ${CREATE_PR}
+          • Draft Mode: ${PR_DRAFT}
+          • Run Tests: ${RUN_TESTS}
+          • Target Branch: ${TARGET_BRANCH}
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                    🚀 AUTONOMOUS EXECUTION PROTOCOL                          ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          Execute the following workflow with precision and thoroughness:
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 1: RECONNAISSANCE & UNDERSTANDING                                      │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          1.1 📖 ANALYZE THE TASK
+              • Parse and understand the task description thoroughly
+              • Identify all requirements and acceptance criteria
+              • List all files and components that need modification
+              • Determine the scope and complexity
+              • Identify potential challenges or edge cases
+
+          1.2 🔍 EXPLORE THE CODEBASE
+              • Use 'find', 'grep', 'ls' to navigate the repository
+              • Identify the project structure and organization
+              • Locate relevant files, modules, and dependencies
+              • Read existing implementations to understand patterns
+              • Check for similar features or previous implementations
+              • Review test files to understand testing patterns
+
+          1.3 📚 GATHER CONTEXT
+              • Read package.json / requirements.txt / Cargo.toml / go.mod
+              • Identify the tech stack and frameworks in use
+              • Check for linting/formatting configs (.eslintrc, .prettierrc, etc.)
+              • Review coding standards and conventions
+              • Check CI/CD configuration for testing requirements
+
+          1.4 🧠 CREATE EXECUTION PLAN
+              • Break down the task into logical steps
+              • Prioritize changes based on dependencies
+              • Plan test coverage strategy
+              • Identify documentation that needs updating
+              • Estimate complexity and potential risks
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 2: ENVIRONMENT SETUP                                                   │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          2.1 🌿 CREATE WORKING BRANCH
+              Execute:
+              git checkout -b ${BRANCH_NAME}
+              
+              Verify:
+              git branch --show-current
+
+          2.2 📦 INSTALL DEPENDENCIES (if needed)
+              • For Node.js: npm install / yarn install / pnpm install
+              • For Python: pip install -r requirements.txt
+              • For Rust: cargo build
+              • For Go: go mod download
+              • Only if new dependencies are required
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 3: IMPLEMENTATION                                                      │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          3.1 💻 WRITE CODE ITERATIVELY
+              Principles:
+              • Follow existing code patterns and conventions
+              • Write clean, readable, maintainable code
+              • Add comments for complex logic
+              • Use meaningful variable and function names
+              • Keep functions small and focused
+              • Follow DRY (Don't Repeat Yourself)
+              • Consider SOLID principles
+              
+              For each logical change:
+              a) Implement the change
+              b) Verify syntax and basic functionality
+              c) Stage files: git add <files>
+              d) Commit with clear message: git commit -m \"<type>: <description>\"
+              
+              Commit message types:
+              • feat: New feature
+              • fix: Bug fix
+              • refactor: Code restructuring
+              • perf: Performance improvement
+              • style: Formatting changes
+              • test: Adding/updating tests
+              • docs: Documentation changes
+              • chore: Maintenance tasks
+
+          3.2 🧪 ADD/UPDATE TESTS
+              ${RUN_TESTS:+• Write tests for new functionality
+              • Update existing tests if behavior changed
+              • Follow existing test patterns and conventions
+              • Cover edge cases and error conditions
+              • Aim for good test coverage (>80%)
+              
+              Test locations (check which applies):
+              • __tests__/ or tests/ directory
+              • *.test.js / *.spec.js / *_test.go / *_test.py
+              • test/ directory}
+
+          3.3 📚 UPDATE DOCUMENTATION
+              • Update README.md if user-facing changes
+              • Add/update inline code comments
+              • Update API documentation
+              • Add migration notes if breaking changes
+              • Update changelog if exists
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 4: QUALITY ASSURANCE                                                   │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          ${RUN_TESTS:+4.1 ✅ RUN TEST SUITE
+              Execute tests based on project type:
+              
+              Node.js:
+              • npm test || npm run test
+              • yarn test
+              • pnpm test
+              
+              Python:
+              • pytest
+              • python -m pytest
+              • python -m unittest discover
+              
+              Rust:
+              • cargo test
+              
+              Go:
+              • go test ./...
+              
+              CRITICAL: All tests MUST pass before proceeding!
+              If tests fail:
+              • Analyze the failure
+              • Fix the issue
+              • Re-run tests
+              • Iterate until all tests pass}
+
+          4.2 🎨 RUN LINTERS/FORMATTERS
+              Check for project-specific tools:
+              
+              JavaScript/TypeScript:
+              • npm run lint || npx eslint .
+              • npm run format || npx prettier --write .
+              
+              Python:
+              • pylint <files>
+              • black <files>
+              • flake8 <files>
+              
+              Rust:
+              • cargo clippy
+              • cargo fmt
+              
+              Go:
+              • go fmt ./...
+              • golint ./...
+
+          4.3 🔍 SELF-REVIEW
+              Review your own changes:
+              git diff ${TARGET_BRANCH}
+              
+              Check for:
+              ✓ No debug code (console.log, print, etc.)
+              ✓ No commented-out code
+              ✓ No TODO comments without issues
+              ✓ Proper error handling
+              ✓ No hardcoded values
+              ✓ No security vulnerabilities
+              ✓ Performance considerations
+              ✓ Accessibility (for UI changes)
+
+          4.4 📊 GENERATE METRICS
+              • Count files changed: git diff --stat ${TARGET_BRANCH}
+              • List modified files: git diff --name-only ${TARGET_BRANCH}
+              • Check for test coverage if tools available
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 5: DELIVERY                                                            │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          5.1 📤 PUSH BRANCH
+              Execute:
+              git push -u origin ${BRANCH_NAME}
+              
+              Verify push succeeded before proceeding.
+
+          ${CREATE_PR:+5.2 📝 CREATE PULL REQUEST
+              Use GitHub CLI to create PR:
+              
+              gh pr create \\
+                --title \"[Copilot] ${TASK_TYPE}: <descriptive title>\" \\
+                ${PR_DRAFT:+--draft \\}
+                --base ${TARGET_BRANCH} \\
+                --head ${BRANCH_NAME} \\
+                --body \"<comprehensive description>\"
+              
+              PR Title Guidelines:
+              • bug-fix: [Copilot] Fix: <what was fixed>
+              • feature: [Copilot] Feat: <what was added>
+              • refactor: [Copilot] Refactor: <what was improved>
+              • documentation: [Copilot] Docs: <what was documented>
+              • testing: [Copilot] Test: <what was tested>
+              • optimization: [Copilot] Perf: <what was optimized>
+              
+              PR BODY TEMPLATE - Use this exact structure:
+              ┌────────────────────────────────────────────────────────────────┐
+              │ # 🤖 Automated by Copilot Agent                                │
+              │                                                                │
+              │ ## 📋 Task Summary                                            │
+              │ ${TASK_DESCRIPTION}                                           │
+              │                                                                │
+              │ ## 🎯 Task Details                                            │
+              │ - **Type:** ${TASK_TYPE}                                      │
+              │ - **Requested by:** @${ACTOR}                                 │
+              │ - **Branch:** \`${BRANCH_NAME}\`                              │
+              │ - **Target:** \`${TARGET_BRANCH}\`                            │
+              │ - **Workflow:** [View Run](${WORKFLOW_RUN_URL})               │
+              │                                                                │
+              │ ${ADDITIONAL_CONTEXT:+## 💡 Additional Context                │
+              │ ${ADDITIONAL_CONTEXT}                                         │
+              │ }                                                              │
+              │ ## 🔧 Implementation                                          │
+              │                                                                │
+              │ ### Changes Made                                              │
+              │ - [ ] <List each significant change>                          │
+              │ - [ ] <Be specific about what was modified>                   │
+              │ - [ ] <Include file paths for major changes>                  │
+              │                                                                │
+              │ ### Files Modified                                            │
+              │ \`\`\`                                                        │
+              │ <paste output of: git diff --stat ${TARGET_BRANCH}>          │
+              │ \`\`\`                                                        │
+              │                                                                │
+              │ ### Approach                                                  │
+              │ <Explain your implementation approach>                        │
+              │ <Why you chose this solution>                                 │
+              │ <Key technical decisions>                                     │
+              │                                                                │
+              │ ## 🧪 Testing                                                 │
+              │                                                                │
+              │ ${RUN_TESTS:+### Test Results                                 │
+              │ \`\`\`                                                        │
+              │ <paste relevant test output>                                  │
+              │ \`\`\`                                                        │
+              │                                                                │
+              │ ### Test Coverage                                             │
+              │ - [ ] Unit tests added/updated                                │
+              │ - [ ] Integration tests verified                              │
+              │ - [ ] Edge cases covered                                      │
+              │ - [ ] All tests passing ✅}                                   │
+              │                                                                │
+              │ ### Manual Testing                                            │
+              │ <Describe manual testing performed>                           │
+              │                                                                │
+              │ ## 📊 Quality Checks                                          │
+              │                                                                │
+              │ - [x] Code follows project conventions                        │
+              │ - [x] No console logs or debug code                           │
+              │ - [x] Error handling implemented                              │
+              │ - [x] Comments added for complex logic                        │
+              │ ${RUN_TESTS:+- [x] All tests passing                          │
+              │ - [x] Linting passed}                                         │
+              │ - [x] No security vulnerabilities introduced                  │
+              │                                                                │
+              │ ## ⚠️ Breaking Changes                                        │
+              │ <List any breaking changes, or write \"None\">                │
+              │                                                                │
+              │ ## 📸 Screenshots/Demo                                        │
+              │ <If UI changes, add screenshots or video>                     │
+              │ <If API changes, add example requests/responses>              │
+              │                                                                │
+              │ ## 🔗 Related Resources                                       │
+              │ - Workflow Run: ${WORKFLOW_RUN_URL}                           │
+              │ - Requested by: @${ACTOR}                                     │
+              │                                                                │
+              │ ## ✅ Review Checklist                                        │
+              │                                                                │
+              │ Please review:                                                │
+              │ - [ ] Implementation approach and design                      │
+              │ - [ ] Code quality and maintainability                        │
+              │ - [ ] Test coverage adequacy                                  │
+              │ - [ ] Documentation completeness                              │
+              │ - [ ] Performance implications                                │
+              │ - [ ] Security considerations                                 │
+              │                                                                │
+              │ ## 💬 Feedback Welcome                                        │
+              │                                                                │
+              │ This PR was created autonomously. Please review and provide   │
+              │ feedback! I can iterate and make changes based on your        │
+              │ comments.                                                     │
+              │                                                                │
+              │ ---                                                           │
+              │ 🤖 Generated by Copilot Agent                                 │
+              └────────────────────────────────────────────────────────────────┘
+              
+              After creating PR, capture the PR number:
+              PR_NUMBER=\$(gh pr view --json number --jq '.number')
+              echo \"PR_NUMBER=\${PR_NUMBER}\" >> $GITHUB_OUTPUT}
+
+          ┌──────────────────────────────────────────────────────────────────────────────┐
+          │ PHASE 6: REPORTING                                                           │
+          └──────────────────────────────────────────────────────────────────────────────┘
+
+          6.1 📢 CREATE EXECUTION SUMMARY
+              Generate a detailed summary of what was accomplished:
+              
+              ╔══════════════════════════════════════════════════════════════╗
+              ║           ✅ TASK EXECUTION COMPLETE                        ║
+              ╚══════════════════════════════════════════════════════════════╝
+              
+              📊 EXECUTION SUMMARY:
+              • Task Type: ${TASK_TYPE}
+              • Branch Created: ${BRANCH_NAME}
+              • Files Modified: <count>
+              • Lines Added: <count>
+              • Lines Removed: <count>
+              • Commits Made: <count>
+              ${RUN_TESTS:+• Tests Status: <passing/total>}
+              ${CREATE_PR:+• Pull Request: #<number>}
+              
+              🎯 ACCOMPLISHED:
+              • <List what was completed>
+              • <Be specific about each accomplishment>
+              • <Highlight key improvements>
+              
+              ⚠️ NOTES:
+              • <Any important notes or considerations>
+              • <Potential areas for improvement>
+              • <Suggestions for follow-up tasks>
+              
+              🔗 NEXT STEPS:
+              ${CREATE_PR:+• Review the PR: <PR URL>
+              • Provide feedback if needed
+              • Merge when ready}
+              
+              ╚══════════════════════════════════════════════════════════════╝
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                     🎯 CRITICAL SUCCESS CRITERIA                             ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          Your work is complete when:
+          ✅ All requirements from task description are addressed
+          ✅ Code follows project conventions and standards
+          ${RUN_TESTS:+✅ All tests pass successfully}
+          ✅ No debug code or console logs remain
+          ✅ Documentation is updated appropriately
+          ✅ Changes are committed with clear messages
+          ✅ Branch is pushed to remote
+          ${CREATE_PR:+✅ Pull request is created with comprehensive description}
+          ✅ Execution summary is generated
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                        ⚠️ ERROR HANDLING                                     ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          If you encounter issues:
+
+          🔴 TESTS FAIL:
+          • Carefully read test output
+          • Identify root cause
+          • Fix the issue
+          • Re-run tests
+          • DO NOT create PR with failing tests
+
+          🔴 LINTING ERRORS:
+          • Run the linter to see all issues
+          • Fix each issue systematically
+          • Follow the project's style guide
+          • Re-run linter until clean
+
+          🔴 GIT CONFLICTS:
+          • Pull latest changes from target branch
+          • Resolve conflicts carefully
+          • Test after resolving
+          • Complete merge
+
+          🔴 BUILD FAILS:
+          • Check for syntax errors
+          • Verify all imports/dependencies
+          • Review error messages carefully
+          • Fix and retry build
+
+          🔴 UNCLEAR REQUIREMENTS:
+          • Document what's unclear in execution summary
+          • Make reasonable assumptions
+          • Note assumptions in PR description
+          • Suggest clarification in PR
+
+          🔴 TASK TOO COMPLEX:
+          • Break into logical subtasks
+          • Complete what's achievable
+          • Document remaining work in PR
+          • Suggest follow-up tasks
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                        🌟 EXCELLENCE STANDARDS                               ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          Strive for:
+          ⭐ Code that looks like it was written by the best developer on the team
+          ⭐ Tests that will catch regressions and edge cases
+          ⭐ Documentation that makes the code self-explanatory
+          ⭐ Commits that tell a clear story of what was built
+          ⭐ PR descriptions that make review effortless
+          ⭐ Implementation that balances pragmatism with quality
+
+          ╔══════════════════════════════════════════════════════════════════════════════╗
+          ║                         🚀 BEGIN EXECUTION NOW                               ║
+          ╚══════════════════════════════════════════════════════════════════════════════╝
+
+          Start with Phase 1 and proceed systematically through each phase.
+          Be thorough, professional, and autonomous.
           
-          WORKFLOW:
-          1. ANALYZE THE ISSUE:
-             - Use 'gh issue view ${ISSUE_NUMBER}' to get full issue details
-             - Understand the problem, bug report, or feature request
-             - Identify affected files and components
-          
-          2. CHECK FOR DUPLICATES:
-             - Search existing issues using 'gh issue list --limit 100 --json number,title,body,state'
-             - If duplicate found, comment and close this issue (do not proceed)
-          
-          3. INVESTIGATE THE CODEBASE:
-             - Explore relevant files mentioned in the issue
-             - Search for related code using grep or file exploration
-             - Understand the current implementation
-             - Run tests if applicable to confirm the issue
-          
-          4. CREATE A SOLUTION:
-             - Create a new branch: 'git checkout -b fix/issue-${ISSUE_NUMBER}'
-             - Implement the fix or feature
-             - Write clean, maintainable code following the project's style
-             - Add or update tests if needed
-             - Ensure no breaking changes
-          
-          5. VERIFY YOUR SOLUTION:
-             - Run existing tests to ensure nothing breaks
-             - Test your specific changes
-             - Review your code for quality
-          
-          6. COMMIT AND PUSH:
-             - Stage your changes: 'git add <files>'
-             - Commit with descriptive message: 'git commit -m \"fix: resolve issue #${ISSUE_NUMBER} - <brief description>\"'
-             - Push branch: 'git push origin fix/issue-${ISSUE_NUMBER}'
-          
-          7. CREATE PULL REQUEST:
-             - Use 'gh pr create' with:
-               * Title: 'Fix #${ISSUE_NUMBER}: <clear, concise description>'
-               * Body should include:
-                 - Summary of changes
-                 - How it fixes the issue
-                 - Testing performed
-                 - Any breaking changes or notes
-               * Link to the issue: 'Fixes #${ISSUE_NUMBER}'
-          
-          8. COMMENT ON ISSUE:
-             - Post a comment on the issue with:
-               * Brief explanation of the fix
-               * Link to the PR
-               * Any additional context
-          
-          IMPORTANT GUIDELINES:
-          - If the issue is unclear, comment asking for clarification (do not create PR)
-          - If the issue requires architectural changes, comment with a proposal first
-          - If you cannot resolve it, explain why in a comment
-          - Always prioritize code quality and maintainability
-          - Follow existing code patterns and conventions
-          - Be cautious with dependencies and external changes
-          - If tests fail, investigate and fix them
-          
-          ERROR HANDLING:
-          - If any step fails, document the error in an issue comment
-          - Do not leave the repository in a broken state
-          - If you cannot complete the task, explain what you attempted and why it failed
-          
-          OUTPUT:
-          Provide a summary at the end with:
-          - What you did
-          - PR number (if created)
-          - Any warnings or notes for human review
-          
-          Begin your investigation now."
+          Good luck! 🤖✨"
       
-      - name: Cleanup on failure
-        if: failure()
+      - name: 📊 Generate Execution Report
+        if: always()
+        id: report
         run: |
-          # Reset any uncommitted changes
-          git reset --hard HEAD
-          git checkout main || git checkout master
-          # Post failure comment
-          gh issue comment ${{ github.event.issue.number }} --body "⚠️ Automated resolution attempt failed. A human developer may need to investigate this issue manually. Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details."
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║              📊 WORKFLOW EXECUTION REPORT                    ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "✅ Task: ${{ github.event.inputs.task_type }}"
+          echo "🌿 Branch: ${{ steps.branch_name.outputs.branch_name }}"
+          echo "📅 Completed: $(date)"
+          echo "👤 Requested by: ${{ github.actor }}"
+          echo ""
+          
+          # Check if PR was created
+          if [ "${{ github.event.inputs.create_pr }}" == "true" ]; then
+            echo "Checking for created PR..."
+            PR_URL=$(gh pr list --head "${{ steps.branch_name.outputs.branch_name }}" --json url --jq '.[0].url')
+            if [ -n "$PR_URL" ]; then
+              echo "✅ Pull Request Created: $PR_URL"
+              echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+            fi
+          fi
+          
+          echo ""
+          echo "🔗 Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo ""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: ✅ Success Notification
+        if: success()
+        run: |
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║                  ✅ TASK COMPLETED SUCCESSFULLY              ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "🎉 Your task has been completed!"
+          echo ""
+          if [ -n "${{ steps.report.outputs.pr_url }}" ]; then
+            echo "📤 Pull Request: ${{ steps.report.outputs.pr_url }}"
+            echo ""
+            echo "Next steps:"
+            echo "1. Review the PR"
+            echo "2. Check the implementation"
+            echo "3. Run any additional manual tests"
+            echo "4. Merge when satisfied"
+          else
+            echo "🌿 Changes are on branch: ${{ steps.branch_name.outputs.branch_name }}"
+            echo ""
+            echo "Next steps:"
+            echo "1. Check out the branch locally"
+            echo "2. Review the changes"
+            echo "3. Create a PR manually if desired"
+          fi
+          echo ""
+      
+      - name: ❌ Failure Notification
+        if: failure()
+        run: |
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║                  ⚠️ TASK EXECUTION FAILED                   ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "❌ The task could not be completed automatically."
+          echo ""
+          echo "Possible reasons:"
+          echo "• Tests failed"
+          echo "• Build errors"
+          echo "• Complex requirements need human judgment"
+          echo "• Missing dependencies or configuration"
+          echo "• Task description was unclear"
+          echo ""
+          echo "📋 Check the logs above for details"
+          echo "🔗 Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
