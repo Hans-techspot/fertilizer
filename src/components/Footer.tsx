@@ -33,10 +33,10 @@ const Footer = (): JSX.Element => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
               <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Products</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/products" className="text-gray-300 hover:text-white transition-colors">Products</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -44,10 +44,10 @@ const Footer = (): JSX.Element => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
-              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">Agricultural Consulting</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">Custom Blending</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">Technical Support</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">Distribution</a></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors">Agricultural Consulting</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors">Custom Blending</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors">Technical Support</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors">Distribution</Link></li>
             </ul>
           </div>
 
@@ -77,9 +77,9 @@ const Footer = (): JSX.Element => {
               &copy; 2025 TAT GLOBAL COMPANY LIMITED. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link to="/about" className="text-gray-300 hover:text-white transition-colors">Terms & Conditions</Link>
-              <a href="/about" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="/about" className="text-gray-300 hover:text-white transition-colors">Sitemap</a>
+              <Link to="/terms" className="text-gray-300 hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="/terms" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/" className="text-gray-300 hover:text-white transition-colors">Sitemap</Link>
             </div>
           </div>
           <p className="text-gray-300 text-sm mt-4">
