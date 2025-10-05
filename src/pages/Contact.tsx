@@ -172,36 +172,35 @@ const Contact = (): JSX.Element => {
                   >
                     Send Message
                   </button>
-              </form>
+                </form>
               )}
             </motion.div>
-          </motion.div>
+        </motion.div>
 
-          {/* Map Section */}
-          <motion.div className="bg-white p-8 rounded-lg shadow-lg" variants={fadeInUp}>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Find Us</h3>
-            <div className="h-96 rounded-lg overflow-hidden">
-              <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position} icon={customIcon}>
-                  <Popup>
-                    <div className="text-center">
-                      <strong>TAT GLOBAL COMPANY LIMITED</strong><br />
-                      123 Agriculture Way<br />
-                      Farmville, USA 12345<br />
-                      <a href="tel:+15551234567" className="text-green-600 hover:text-green-800">+1 (555) 123-4567</a>
-                    </div>
-                  </Popup>
-                </Marker>
-              </MapContainer>
-            </div>
-            <div className="mt-4 text-sm text-gray-600">
-              <p>Our headquarters is located in the heart of agricultural country. Visit us for personalized consultations and product demonstrations.</p>
-            </div>
-          </motion.div>
+        {/* Map Section */}
+        <motion.div className="bg-white p-8 rounded-lg shadow-lg mb-16" variants={fadeInUp}>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Find Us</h3>
+          <div className="h-96 rounded-lg overflow-hidden">
+            <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={position} icon={customIcon}>
+                <Popup>
+                  <div className="text-center">
+                    <strong>TAT GLOBAL COMPANY LIMITED</strong><br />
+                    123 Agriculture Way<br />
+                    Farmville, USA 12345<br />
+                    <a href="tel:+15551234567" className="text-green-600 hover:text-green-800">+1 (555) 123-4567</a>
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+          <div className="mt-4 text-sm text-gray-600">
+            <p>Our headquarters is located in the heart of agricultural country. Visit us for personalized consultations and product demonstrations.</p>
+          </div>
         </motion.div>
 
         {/* Additional Information */}
