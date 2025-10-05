@@ -61,9 +61,9 @@ jobs:
     steps:
       - name: 📊 Display Task Summary
         run: |
-          echo "╔══════════════════════════════════════════════════════════════╗"
-          echo "║              🤖 COPILOT AGENT - TASK EXECUTION              ║"
-          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+          echo "║              🤖 COPILOT AGENT - TASK EXECUTION                              ║"
+          echo "╚══════════════════════════════════════════════════════════════════════════════╝"
           echo ""
           echo "📝 Task Type: ${{ github.event.inputs.task_type }}"
           echo "🎯 Target Branch: ${{ github.event.inputs.target_branch }}"
@@ -106,21 +106,23 @@ jobs:
           API_KEY="${{ secrets.CODESTRAL_API_KEY }}"
           [ -z "$API_KEY" ] && API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
 
-          echo "providers:
+          cat > ~/.opencode/config.yaml <<EOF
+providers:
   codestral:
-    name: \"Codestral\"
-    module: \"@ai-sdk/openai-compatible\"
+    name: "Codestral"
+    module: "@ai-sdk/openai-compatible"
     options:
-      baseURL: \"https://codestral.mistral.ai/v1\"
-      apiKey: \"${API_KEY}\"
+      baseURL: "https://codestral.mistral.ai/v1"
+      apiKey: "${API_KEY}"
     models:
       agent:
-        id: \"codestral-2501\"
-        name: \"Copilot Agent\"
+        id: "codestral-2501"
+        name: "Copilot Agent"
       fallback:
-        id: \"codestral-latest\"
-        name: \"Fallback Agent\"
-defaultModel: \"codestral/agent\"" > ~/.opencode/config.yaml
+        id: "codestral-latest"
+        name: "Fallback Agent"
+defaultModel: "codestral/agent"
+EOF
 
           echo "✅ Configuration complete"
           cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/'
@@ -168,9 +170,9 @@ Execute now and show progress."
       - name: 📊 Workflow Summary
         if: always()
         run: |
-          echo "╔══════════════════════════════════════════════════════════════╗"
-          echo "║              📊 WORKFLOW EXECUTION REPORT                    ║"
-          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+          echo "║              📊 WORKFLOW EXECUTION REPORT                                   ║"
+          echo "╚══════════════════════════════════════════════════════════════════════════════╝"
           echo "✅ Task: ${{ github.event.inputs.task_type }}"
           echo "🌿 Branch: ${{ steps.branch_name.outputs.branch_name }}"
           echo "📅 Completed: $(date)"
