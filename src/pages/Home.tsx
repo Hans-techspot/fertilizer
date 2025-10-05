@@ -409,6 +409,7 @@ const Home = (): JSX.Element => {
                 <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <motion.div
+                      variants={fadeInUp}
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                     >
@@ -634,6 +635,7 @@ const Home = (): JSX.Element => {
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
                 className="text-center"
+                variants={fadeInUp}
               >
                 <Card className="hover:shadow-2xl transition-all duration-500 hover:scale-105 mx-auto max-w-2xl">
                   <CardContent className="pt-8 pb-8 px-8">
@@ -789,6 +791,7 @@ const Home = (): JSX.Element => {
             ].map((region, index) => (
               <motion.div
                 key={index}
+                variants={fadeInUp}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ duration: 0.2 }}
               >
