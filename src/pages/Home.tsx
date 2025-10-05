@@ -317,7 +317,7 @@ const Home = (): JSX.Element => {
               { icon: Globe, value: '50+', label: 'Countries Served', color: 'text-purple-600', bgColor: 'bg-purple-50' },
               { icon: Shield, value: '200+', label: 'Product Varieties', color: 'text-orange-600', bgColor: 'bg-orange-50' },
             ].map((stat, index) => (
-              <motion.div key={index} variants={scaleIn}>
+              <motion.div key={index} variants={fadeInUp}>
                 <Card className="text-center hover:shadow-xl transition-all duration-500 hover:scale-110 hover:-translate-y-2 cursor-pointer group relative overflow-hidden">
                   <div className={`absolute inset-0 ${stat.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                   <CardContent className="pt-6 relative z-10">
@@ -701,7 +701,7 @@ const Home = (): JSX.Element => {
               { icon: BarChart3, title: 'Technical Support', desc: 'Ongoing support and training for optimal fertilizer usage.', color: 'from-purple-500 to-purple-600' },
               { icon: Clock, title: 'Distribution Network', desc: 'Reliable worldwide shipping and logistics services.', color: 'from-orange-500 to-orange-600' },
             ].map((service, index) => (
-              <motion.div key={index} variants={scaleIn}>
+              <motion.div key={index} variants={fadeInUp}>
                 <Card className="text-center hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer h-full group relative overflow-hidden">
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
                   <CardHeader className="relative z-10">
