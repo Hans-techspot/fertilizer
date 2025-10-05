@@ -257,23 +257,25 @@ const Home = (): JSX.Element => {
                   Quick Quote
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Get a Quick Quote</DialogTitle>
-                  <DialogDescription>
-                    Tell us about your fertilizer needs and we'll provide a custom quote.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    <span>+1 (555) 123-4567</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    <span>quotes@tatglobal.com</span>
-                  </div>
-                </div>
+              <DialogContent className="bg-white">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Get a Quick Quote</CardTitle>
+                    <CardDescription>
+                      Tell us about your fertilizer needs and we'll provide a custom quote.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Phone className="w-4 h-4" />
+                      <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4" />
+                      <span>quotes@tatglobal.com</span>
+                    </div>
+                  </CardContent>
+                </Card>
               </DialogContent>
             </Dialog>
           </motion.div>
