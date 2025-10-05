@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { FileText, Download } from 'lucide-react'
-import Footer from '@/components/Footer'
 
 const Terms = (): JSX.Element => {
   return (
@@ -144,7 +143,6 @@ const Terms = (): JSX.Element => {
           </Card>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }
