@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import MobileNav from './MobileNav'
 
 const Header = (): JSX.Element => {
   const location = useLocation()
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
     { to: '/products', label: 'Products' },
     { to: '/contact', label: 'Contact' },
     { to: '/terms', label: 'Terms' },
-  ]
+  ], [])
 
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-green-200">
+    <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md z-50 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0">
@@ -26,14 +26,16 @@ const Header = (): JSX.Element => {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 ${location.pathname === item.to ? 'bg-green-100 text-green-700' : 'text-gray-700'}`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${location.pathname === item.to ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'}`}
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
           </nav>
-          <MobileNav />
+          <div className="md:hidden">
+            <MobileNav />
+          </div>
         </div>
       </div>
     </header>

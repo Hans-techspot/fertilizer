@@ -65,83 +65,82 @@ const Home = (): JSX.Element => {
 
   const products = [
     {
-    id: 0,
-    name: 'Automotive Grade Urea',
-    category: 'specialty',
-    price: 'Contact Us',
-    rating: 4.8,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/Automotive-Grade-Urea.webp',
-    description: 'Automotive Grade Urea is a special, uncoated version of the highest purity. It is the main component of urea solutions like AdBlue® or AUS40/45 which are used within SCR systems for the reason of NOx reduction.',
-    features: ['Highest purity', 'Uncoated', 'SCR systems'],
-    benefits: ['NOx reduction', 'Emission control', 'Environmental compliance'],
-  },
+      id: 0,
+      name: 'Automotive Grade Urea',
+      category: 'specialty',
+      price: 'Contact Us',
+      rating: 4.8,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/Automotive-Grade-Urea.webp',
+      description: 'Automotive Grade Urea is a special, uncoated version of the highest purity. It is the main component of urea solutions like AdBlue® or AUS40/45 which are used within SCR systems for the reason of NOx reduction.',
+      features: ['Highest purity', 'Uncoated', 'SCR systems'],
+      benefits: ['NOx reduction', 'Emission control', 'Environmental compliance'],
+    },
     {
-    id: 1,
-    name: 'Diammonium Phosphate (DAP)',
-    category: 'phosphorus',
-    price: 'Contact Us',
-    rating: 4.8,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/Diammonium-Phosphate-DAP-1024x1024.jpg',
-    description: 'It’s formulated in a controlled reaction of phosphoric acid with ammonia, where the hot slurry is then cooled, granulated and sieved. The standard nutrient grade of DAP is relatively high, at 18-46-0.',
-    features: ['High nutrient grade', 'Granulated', 'Controlled reaction'],
-    benefits: ['Phosphorus and nitrogen', 'Root development', 'Early growth'],
-  },
-  {
-    id: 2,
-    name: 'Single superphosphate(TSP)',
-    category: 'phosphorus',
-    price: 'Contact Us',
-    rating: 4.7,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/phos1-scaled-1-1024x1024.jpg',
-    description: 'TSP is a solid single-nutrient phosphate fertilizer material produced from phosphate rock and phosphoric acid. TSP contains 44–46% anhydrous phosphoric acid (P2O5), more than twice the P2O5 content of normal superphosphate.',
-    features: ['High P2O5 content', 'Single nutrient', 'Solid fertilizer'],
-    benefits: ['Phosphorus availability', 'Soil fertility', 'Crop nutrition'],
-  },
-  {
-    id: 3,
-    name: 'Sulphate of potash (SOP)',
-    category: 'potassium',
-    price: 'Contact Us',
-    rating: 4.9,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/Sulphate-of-potash-SOP.png',
-    description: 'Potassium sulfate or potassium sulphate, also called sulphate of potash, arcanite, or archaically potash of sulfur, is the inorganic compound with formula K₂SO₄, a white water-soluble solid. It is commonly used in fertilizers, providing both potassium and sulfur.',
-    features: ['Chloride free', 'Sulfate source', 'Premium potassium'],
-    benefits: ['Potassium nutrition', 'Sulfur supply', 'Quality crops'],
-  },
-  {
-    id: 4,
-    name: 'NPK 15-15-15',
-    category: 'compound',
-    price: 'Contact Us',
-    rating: 4.8,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/NPK-15-15-15.jpg',
-    description: 'The 15-15-15 (12) complex fertilizer with sulphur is a highly-versatile fertilizer, with a perfect balance of nitrogen, phosphorus and potassium that makes it one of the most used fertilizers for use during sowing as it covers the needs of crops after sowing.',
-    features: ['Balanced NPK', 'Sulfur included', 'Versatile use'],
-    benefits: ['Complete nutrition', 'Sowing fertilizer', 'Crop establishment'],
-  },
-  {
-    id: 5,
-    name: 'Monoammonium phosphate (MAP)',
-    category: 'phosphorus',
-    price: 'Contact Us',
-    rating: 4.9,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/monoammonium-phosphate-map.jpg',
-    description: 'Monoammonium phosphate (MAP) is a widely used source of phosphorus (P) and nitrogen (N).* It’s made of two constituents common in the fertilizer industry and contains the most phosphorus of any common solid fertilizer.',
-    features: ['High phosphorus', 'Nitrogen source', 'Widely used'],
-    benefits: ['Phosphorus efficiency', 'Nitrogen supply', 'Crop performance'],
-  },
-  {
-    id: 6,
-    name: 'Muriate of Potash (MOP)',
-    category: 'potassium',
-    price: 'Contact Us',
-    rating: 4.7,
-    image: 'https://diga-as.com/wp-content/uploads/2022/10/MOP-1.jpg',
-    description: 'Bolder granules ensure maximum utilization efficiency of applied Potash with minimum losses. Can be applied to crops independently, based on a soil test. Better quality of produce. Reduces cost of pest management.',
-    features: ['Bolder granules', 'Efficient utilization', 'Soil test based'],
-    benefits: ['Potassium efficiency', 'Quality produce', 'Pest management'],
-  },
-  
+      id: 1,
+      name: 'Diammonium Phosphate (DAP)',
+      category: 'phosphorus',
+      price: 'Contact Us',
+      rating: 4.8,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/Diammonium-Phosphate-DAP-1024x1024.jpg',
+      description: 'It’s formulated in a controlled reaction of phosphoric acid with ammonia, where the hot slurry is then cooled, granulated and sieved. The standard nutrient grade of DAP is relatively high, at 18-46-0.',
+      features: ['High nutrient grade', 'Granulated', 'Controlled reaction'],
+      benefits: ['Phosphorus and nitrogen', 'Root development', 'Early growth'],
+    },
+    {
+      id: 2,
+      name: 'Single superphosphate(TSP)',
+      category: 'phosphorus',
+      price: 'Contact Us',
+      rating: 4.7,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/phos1-scaled-1-1024x1024.jpg',
+      description: 'TSP is a solid single-nutrient phosphate fertilizer material produced from phosphate rock and phosphoric acid. TSP contains 44–46% anhydrous phosphoric acid (P2O5), more than twice the P2O5 content of normal superphosphate.',
+      features: ['High P2O5 content', 'Single nutrient', 'Solid fertilizer'],
+      benefits: ['Phosphorus availability', 'Soil fertility', 'Crop nutrition'],
+    },
+    {
+      id: 3,
+      name: 'Sulphate of potash (SOP)',
+      category: 'potassium',
+      price: 'Contact Us',
+      rating: 4.9,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/Sulphate-of-potash-SOP.png',
+      description: 'Potassium sulfate or potassium sulphate, also called sulphate of potash, arcanite, or archaically potash of sulfur, is the inorganic compound with formula K₂SO₄, a white water-soluble solid. It is commonly used in fertilizers, providing both potassium and sulfur.',
+      features: ['Chloride free', 'Sulfate source', 'Premium potassium'],
+      benefits: ['Potassium nutrition', 'Sulfur supply', 'Quality crops'],
+    },
+    {
+      id: 4,
+      name: 'NPK 15-15-15',
+      category: 'compound',
+      price: 'Contact Us',
+      rating: 4.8,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/NPK-15-15-15.jpg',
+      description: 'The 15-15-15 (12) complex fertilizer with sulphur is a highly-versatile fertilizer, with a perfect balance of nitrogen, phosphorus and potassium that makes it one of the most used fertilizers for use during sowing as it covers the needs of crops after sowing.',
+      features: ['Balanced NPK', 'Sulfur included', 'Versatile use'],
+      benefits: ['Complete nutrition', 'Sowing fertilizer', 'Crop establishment'],
+    },
+    {
+      id: 5,
+      name: 'Monoammonium phosphate (MAP)',
+      category: 'phosphorus',
+      price: 'Contact Us',
+      rating: 4.9,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/monoammonium-phosphate-map.jpg',
+      description: 'Monoammonium phosphate (MAP) is a widely used source of phosphorus (P) and nitrogen (N).* It’s made of two constituents common in the fertilizer industry and contains the most phosphorus of any common solid fertilizer.',
+      features: ['High phosphorus', 'Nitrogen source', 'Widely used'],
+      benefits: ['Phosphorus efficiency', 'Nitrogen supply', 'Crop performance'],
+    },
+    {
+      id: 6,
+      name: 'Muriate of Potash (MOP)',
+      category: 'potassium',
+      price: 'Contact Us',
+      rating: 4.7,
+      image: 'https://diga-as.com/wp-content/uploads/2022/10/MOP-1.jpg',
+      description: 'Bolder granules ensure maximum utilization efficiency of applied Potash with minimum losses. Can be applied to crops independently, based on a soil test. Better quality of produce. Reduces cost of pest management.',
+      features: ['Bolder granules', 'Efficient utilization', 'Soil test based'],
+      benefits: ['Potassium efficiency', 'Quality produce', 'Pest management'],
+    },
   ]
 
   const testimonials = [
@@ -177,35 +176,11 @@ const Home = (): JSX.Element => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 overflow-x-hidden relative">
-      {/* Floating Particles */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-green-400 rounded-full opacity-20"
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: 'reverse',
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </div>
-
+    <div className="min-h-screen bg-background overflow-x-hidden relative">
       {/* Hero Section */}
       <motion.section
         id="home"
-        className="relative pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white overflow-hidden"
+        className="relative pb-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -219,7 +194,7 @@ const Home = (): JSX.Element => {
         />
         <div className="relative max-w-7xl mx-auto text-center py-20 z-10">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent"
+            className="text-4xl md:text-6xl font-bold mb-6 text-primary-foreground"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -227,7 +202,7 @@ const Home = (): JSX.Element => {
             TAT GLOBAL COMPANY LIMITED
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-100"
+            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-muted-foreground"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -242,7 +217,7 @@ const Home = (): JSX.Element => {
           >
             <Button
               size="lg"
-              className="bg-white text-green-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-primary-foreground text-primary hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
               onClick={() => scrollToSection('products')}
             >
               Explore Products
@@ -252,7 +227,7 @@ const Home = (): JSX.Element => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-green-600 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   Quick Quote
                 </Button>
@@ -283,9 +258,9 @@ const Home = (): JSX.Element => {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center cursor-pointer" onClick={() => scrollToSection('stats')}>
+          <div className="w-6 h-10 border-2 border-primary-foreground rounded-full flex justify-center cursor-pointer" onClick={() => scrollToSection('stats')}>
             <motion.div
-              className="w-1 h-3 bg-white rounded-full mt-2"
+              className="w-1 h-3 bg-primary-foreground rounded-full mt-2"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
@@ -296,24 +271,24 @@ const Home = (): JSX.Element => {
       {/* Stats Section */}
       <motion.section
         id="stats"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
         variants={staggerContainer}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-blue-50 opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-accent to-background opacity-50" />
         <div className="relative max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Impact in Numbers</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Trusted by farmers worldwide for sustainable agricultural solutions.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Impact in Numbers</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Trusted by farmers worldwide for sustainable agricultural solutions.</p>
           </motion.div>
           <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" variants={staggerContainer}>
             {[
-              { icon: Users, value: '100K+', label: 'Happy Farmers', color: 'text-blue-600', bgColor: 'bg-blue-50' },
-              { icon: TrendingUp, value: '25%', label: 'Yield Increase', color: 'text-green-600', bgColor: 'bg-green-50' },
-              { icon: Globe, value: '50+', label: 'Countries Served', color: 'text-purple-600', bgColor: 'bg-purple-50' },
-              { icon: Shield, value: '200+', label: 'Product Varieties', color: 'text-orange-600', bgColor: 'bg-orange-50' },
+              { icon: Users, value: '100K+', label: 'Happy Farmers', color: 'text-primary', bgColor: 'bg-primary/10' },
+              { icon: TrendingUp, value: '25%', label: 'Yield Increase', color: 'text-green-600', bgColor: 'bg-green-500/10' },
+              { icon: Globe, value: '50+', label: 'Countries Served', color: 'text-purple-600', bgColor: 'bg-purple-500/10' },
+              { icon: Shield, value: '200+', label: 'Product Varieties', color: 'text-orange-600', bgColor: 'bg-orange-500/10' },
             ].map((stat, index) => (
               <motion.div key={index} variants={scaleIn}>
                 <Card className="text-center hover:shadow-xl transition-all duration-500 hover:scale-110 hover:-translate-y-2 cursor-pointer group relative overflow-hidden">
@@ -327,7 +302,7 @@ const Home = (): JSX.Element => {
                       <stat.icon className={`w-8 h-8 ${stat.color}`} />
                     </motion.div>
                     <motion.div
-                      className="text-4xl font-bold text-gray-900 mb-2"
+                      className="text-4xl font-bold text-foreground mb-2"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -335,7 +310,7 @@ const Home = (): JSX.Element => {
                     >
                       {stat.value}
                     </motion.div>
-                    <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+                    <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -347,7 +322,7 @@ const Home = (): JSX.Element => {
       {/* Features Section */}
       <motion.section
         id="features"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-green-50"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -355,12 +330,12 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose TAT GLOBAL</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">We are committed to providing high-quality fertilizer products that enhance agricultural productivity and promote sustainable farming practices.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Why Choose TAT GLOBAL</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">We are committed to providing high-quality fertilizer products that enhance agricultural productivity and promote sustainable farming practices.</p>
           </motion.div>
           <motion.div className="grid md:grid-cols-3 gap-8" variants={staggerContainer}>
             {[
-              { icon: Award, title: 'Quality Assurance', desc: 'Our products undergo rigorous testing to ensure the highest quality standards for optimal crop yield.', color: 'from-blue-500 to-blue-600' },
+              { icon: Award, title: 'Quality Assurance', desc: 'Our products undergo rigorous testing to ensure the highest quality standards for optimal crop yield.', color: 'from-primary to-blue-600' },
               { icon: Leaf, title: 'Sustainable Solutions', desc: 'We focus on environmentally friendly fertilizers that support long-term soil health and ecosystem balance.', color: 'from-green-500 to-green-600' },
               { icon: Tractor, title: 'Global Reach', desc: 'Serving farmers and agricultural businesses across continents with reliable supply chains.', color: 'from-purple-500 to-purple-600' },
             ].map((feature, index) => (
@@ -390,7 +365,7 @@ const Home = (): JSX.Element => {
       {/* Products Section */}
       <motion.section
         id="products"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -398,8 +373,8 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Products</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Discover our premium fertilizer range designed for maximum crop productivity.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Featured Products</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Discover our premium fertilizer range designed for maximum crop productivity.</p>
           </motion.div>
           <Carousel className="w-full max-w-6xl mx-auto">
             <CarouselContent>
@@ -418,20 +393,20 @@ const Home = (): JSX.Element => {
                             className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                           <div className="absolute top-2 right-2">
-                            <Badge variant="secondary" className="bg-white/90 text-gray-800">{product.category}</Badge>
+                            <Badge variant="secondary">{product.category}</Badge>
                           </div>
                         </div>
                         <CardContent className="p-6 flex flex-col h-full">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-1">
                               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                              <span className="text-sm text-gray-600">{product.rating}</span>
+                              <span className="text-sm text-muted-foreground">{product.rating}</span>
                             </div>
                           </div>
                           <CardTitle className="text-lg mb-2 flex-grow">{product.name}</CardTitle>
                           <CardDescription className="mb-4 flex-grow">{product.description}</CardDescription>
                           <div className="flex items-center justify-between mt-auto">
-                            <span className="text-2xl font-bold text-green-600">{product.price}</span>
+                            <span className="text-2xl font-bold text-primary">{product.price}</span>
                             <Link to="/contact">
                               <Button size="sm" className="hover:scale-105 transition-transform">
                                 Learn More
@@ -451,10 +426,10 @@ const Home = (): JSX.Element => {
           </Carousel>
         </div>
       </motion.section>
- {/* Gallery Section */}
+      {/* Gallery Section */}
       <motion.section
         id="gallery"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-green-50"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -462,14 +437,14 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Gallery</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Gallery</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Explore our journey and impact through vivid moments from the field.
             </p>
           </motion.div>
           <Carousel className="w-full max-w-4xl mx-auto">
             <CarouselContent>
-              {[1,2,3,4,5,6].map((num, idx) => (
+              {[1, 2, 3, 4, 5, 6].map((num, idx) => (
                 <CarouselItem key={num} className="md:basis-1/2 lg:basis-1/3">
                   <motion.div
                     className="p-2 h-full"
@@ -489,7 +464,7 @@ const Home = (): JSX.Element => {
                     }}
                     viewport={{ once: true }}
                   >
-                    <div className="relative rounded-xl overflow-hidden shadow-lg group h-72 flex items-center justify-center bg-white">
+                    <div className="relative rounded-xl overflow-hidden shadow-lg group h-72 flex items-center justify-center bg-card">
                       <img
                         src={`/${num}.jpg`}
                         alt={`Gallery image ${num}`}
@@ -520,7 +495,7 @@ const Home = (): JSX.Element => {
       </motion.section>
       {/* Video Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary text-secondary-foreground"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -534,7 +509,7 @@ const Home = (): JSX.Element => {
             See TAT GLOBAL in Action
           </motion.h2>
           <motion.p
-            className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto"
+            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
             variants={fadeInUp}
           >
             Watch how our innovative fertilizer solutions are transforming agriculture worldwide.
@@ -579,7 +554,7 @@ const Home = (): JSX.Element => {
 
       {/* Timeline Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -587,11 +562,11 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Journey</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">25 years of innovation and commitment to sustainable agriculture.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Journey</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">25 years of innovation and commitment to sustainable agriculture.</p>
           </motion.div>
           <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-green-400 to-blue-500 rounded-full" />
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary to-blue-500 rounded-full" />
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
@@ -601,13 +576,13 @@ const Home = (): JSX.Element => {
                 <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
                   <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
                     <CardContent className="p-6">
-                      <div className="text-2xl font-bold text-green-600 mb-2">{item.year}</div>
+                      <div className="text-2xl font-bold text-primary mb-2">{item.year}</div>
                       <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                      <p className="text-gray-600">{item.desc}</p>
+                      <p className="text-muted-foreground">{item.desc}</p>
                     </CardContent>
                   </Card>
                 </div>
-                <div className="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10" />
+                <div className="w-4 h-4 bg-primary rounded-full border-4 border-white shadow-lg z-10" />
               </motion.div>
             ))}
           </div>
@@ -616,7 +591,7 @@ const Home = (): JSX.Element => {
 
       {/* Testimonials Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 to-blue-50"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -624,8 +599,8 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Hear from farmers who have transformed their yields with TAT GLOBAL products.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What Our Customers Say</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Hear from farmers who have transformed their yields with TAT GLOBAL products.</p>
           </motion.div>
           <div className="relative max-w-4xl mx-auto">
             <AnimatePresence mode="wait">
@@ -659,10 +634,10 @@ const Home = (): JSX.Element => {
                         </motion.div>
                       ))}
                     </div>
-                    <blockquote className="text-lg text-gray-700 mb-6 italic">"{testimonials[activeTestimonial].content}"</blockquote>
+                    <blockquote className="text-lg text-foreground mb-6 italic">"{testimonials[activeTestimonial].content}"</blockquote>
                     <div>
                       <div className="font-bold text-lg">{testimonials[activeTestimonial].name}</div>
-                      <div className="text-gray-600">{testimonials[activeTestimonial].role}</div>
+                      <div className="text-muted-foreground">{testimonials[activeTestimonial].role}</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -673,7 +648,7 @@ const Home = (): JSX.Element => {
                 <button
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${activeTestimonial === index ? 'bg-green-600 scale-125' : 'bg-gray-300 hover:bg-gray-400'}`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${activeTestimonial === index ? 'bg-primary scale-125' : 'bg-gray-300 hover:bg-gray-400'}`}
                 />
               ))}
             </div>
@@ -683,7 +658,7 @@ const Home = (): JSX.Element => {
 
       {/* Services Preview */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -691,8 +666,8 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" variants={fadeInUp}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Comprehensive agricultural support to maximize your farming success.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Services</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Comprehensive agricultural support to maximize your farming success.</p>
           </motion.div>
           <motion.div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8" variants={staggerContainer}>
             {[
@@ -726,7 +701,7 @@ const Home = (): JSX.Element => {
 
       {/* Why Sustainable Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-green-50 to-blue-50"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-muted"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -735,25 +710,25 @@ const Home = (): JSX.Element => {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div variants={slideInLeft}>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sustainable Agriculture for a Better Future</h2>
-              <p className="text-lg text-gray-600 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Sustainable Agriculture for a Better Future</h2>
+              <p className="text-lg text-muted-foreground mb-6">
                 At TAT GLOBAL, we believe in responsible farming that preserves the environment while maximizing productivity. Our sustainable practices ensure that future generations can continue to thrive.
               </p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-primary" />
                   <span>Reduced chemical runoff by 40%</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-primary" />
                   <span>Carbon-neutral production processes</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <CheckCircle className="w-5 h-5 text-primary" />
                   <span>Support for organic farming certifications</span>
                 </li>
               </ul>
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 hover:scale-105 transition-all duration-300 shadow-lg">Learn About Sustainability</Button>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg">Learn About Sustainability</Button>
             </motion.div>
             <motion.div variants={slideInRight} className="text-center">
               <motion.img
@@ -770,7 +745,7 @@ const Home = (): JSX.Element => {
 
       {/* Global Reach Section */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-background"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -778,9 +753,9 @@ const Home = (): JSX.Element => {
       >
         <div className="max-w-7xl mx-auto text-center">
           <motion.div variants={fadeInUp}>
-            <Globe className="w-16 h-16 text-green-600 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Global Reach, Local Expertise</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            <Globe className="w-16 h-16 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Global Reach, Local Expertise</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Serving farmers across 50+ countries with localized solutions and expert support in multiple languages.
             </p>
           </motion.div>
@@ -794,9 +769,9 @@ const Home = (): JSX.Element => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 hover:border-green-300">
-                  <MapPin className="w-8 h-8 text-green-600 mx-auto mb-3" />
-                  <span className="text-gray-700 font-medium text-sm">{region}</span>
+                <div className="bg-muted p-6 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer border border-border hover:border-primary/50">
+                  <MapPin className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <span className="text-foreground font-medium text-sm">{region}</span>
                 </div>
               </motion.div>
             ))}
@@ -806,7 +781,7 @@ const Home = (): JSX.Element => {
 
       {/* Call to Action */}
       <motion.section
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 text-white relative overflow-hidden"
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground relative overflow-hidden"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -821,7 +796,7 @@ const Home = (): JSX.Element => {
             Ready to Transform Your Agriculture?
           </motion.h2>
           <motion.p
-            className="text-xl mb-8 text-gray-100"
+            className="text-xl mb-8 text-muted-foreground"
             variants={fadeInUp}
           >
             Join thousands of farmers worldwide who trust TAT GLOBAL for their fertilizer needs.
@@ -833,7 +808,7 @@ const Home = (): JSX.Element => {
             <motion.div variants={scaleIn}>
               <Button
                 size="lg"
-                className="bg-white text-green-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-xl"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 hover:scale-105 transition-all duration-300 shadow-xl"
                 onClick={() => scrollToSection('home')}
               >
                 Get Started Today
@@ -843,7 +818,7 @@ const Home = (): JSX.Element => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-green-600 hover:scale-105 transition-all duration-300 shadow-xl"
+                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary hover:scale-105 transition-all duration-300 shadow-xl"
                 onClick={() => scrollToSection('features')}
               >
                 Learn More
@@ -853,12 +828,12 @@ const Home = (): JSX.Element => {
         </div>
         {/* Floating elements */}
         <motion.div
-          className="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full"
+          className="absolute top-10 left-10 w-20 h-20 bg-primary-foreground bg-opacity-10 rounded-full"
           animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-10 right-10 w-16 h-16 bg-white bg-opacity-10 rounded-full"
+          className="absolute bottom-10 right-10 w-16 h-16 bg-primary-foreground bg-opacity-10 rounded-full"
           animate={{ y: [0, 20, 0], rotate: [0, -180, -360] }}
           transition={{ duration: 6, repeat: Infinity }}
         />
