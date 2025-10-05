@@ -98,13 +98,15 @@ jobs:
           echo "$HOME/.opencode/bin" >> $GITHUB_PATH
           echo "✅ OpenCode installed successfully"
 
-      - name: ⚙️ Configure Codestral
+      - name: "⚙️ Configure Codestral"
         run: |
           echo "⚙️ Configuring Codestral..."
           mkdir -p ~/.opencode
 
           API_KEY="${{ secrets.CODESTRAL_API_KEY }}"
-          [ -z "$API_KEY" ] && API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
+          if [ -z "$API_KEY" ]; then
+            API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
+          fi
 
           cat > ~/.opencode/config.yaml <<EOF
 providers:
@@ -113,7 +115,7 @@ providers:
     module: "@ai-sdk/openai-compatible"
     options:
       baseURL: "https://codestral.mistral.ai/v1"
-      apiKey: "${API_KEY}"
+      apiKey: "$API_KEY"
     models:
       agent:
         id: "codestral-2501"
