@@ -1,66 +1,171 @@
-name: '🤖 Codestral Dispatch'
+name: '🤖 Manual Task Runner'
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [opened, reopened, synchronize]
-  issue_comment:
-    types: [created]
+    inputs:
+      task_description:
+        description: '📝 Task Description (What do you want the agent to do?)'
+        required: true
+        type: string
+      task_type:
+        description: '🏷️ Task Type'
+        required: true
+        type: choice
+        options:
+          - 'bug-fix'
+          - 'feature'
+          - 'refactor'
+          - 'documentation'
+          - 'testing'
+          - 'optimization'
+          - 'other'
+        default: 'feature'
+      branch_name:
+        description: '🌿 Custom Branch Name (leave empty for auto-generated)'
+        required: false
+        type: string
+      create_pr:
+        description: '📤 Create Pull Request?'
+        required: true
+        type: boolean
+        default: true
+      pr_draft:
+        description: '📋 Create as Draft PR?'
+        required: true
+        type: boolean
+        default: true
+      run_tests:
+        description: '🧪 Run Tests Before Creating PR?'
+        required: true
+        type: boolean
+        default: true
+      target_branch:
+        description: '🎯 Target Branch for PR'
+        required: false
+        type: string
+        default: 'main'
+      additional_context:
+        description: '💡 Additional Context/Instructions (optional)'
+        required: false
+        type: string
 
 jobs:
-  codestral:
+  execute-task:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      actions: read
 
     steps:
-      - name: 🧱 Checkout repository
-        uses: actions/checkout@v4
-
-      - name: ⚙️ Configure Codestral Provider
+      - name: 📊 Display Task Summary
         run: |
-          echo "⚙️ Setting up Codestral configuration..."
+          echo "╔══════════════════════════════════════════════════════════════╗"
+          echo "║              🤖 COPILOT AGENT - TASK EXECUTION              ║"
+          echo "╚══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "📝 Task Type: ${{ github.event.inputs.task_type }}"
+          echo "🎯 Target Branch: ${{ github.event.inputs.target_branch }}"
+          echo "📤 Create PR: ${{ github.event.inputs.create_pr }}"
+          echo "📋 Draft PR: ${{ github.event.inputs.pr_draft }}"
+          echo "🧪 Run Tests: ${{ github.event.inputs.run_tests }}"
+          echo ""
+          echo "📄 Task Description:"
+          echo "─────────────────────────────────────────────────────────────"
+          echo "${{ github.event.inputs.task_description }}"
+          echo "─────────────────────────────────────────────────────────────"
+          echo ""
+          echo "🚀 Starting autonomous execution..."
+          echo ""
+
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.inputs.target_branch }}
+
+      - name: 🔧 Setup Git Identity
+        run: |
+          git config user.name "Copilot Agent[bot]"
+          git config user.email "copilot-agent[bot]@users.noreply.github.com"
+
+      - name: 📦 Install OpenCode CLI
+        run: |
+          echo "📦 Installing OpenCode CLI..."
+          curl -fsSL https://opencode.ai/install | bash
+          echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+          echo "✅ OpenCode installed successfully"
+
+      - name: ⚙️ Configure Codestral
+        run: |
+          echo "⚙️ Configuring Codestral..."
           mkdir -p ~/.opencode
-          cat > ~/.opencode/config.yaml << 'EOF'
+
+          API_KEY="${{ secrets.CODESTRAL_API_KEY }}"
+          [ -z "$API_KEY" ] && API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
+
+          cat > ~/.opencode/config.yaml << EOF
           providers:
             codestral:
               name: "Codestral"
               module: "@ai-sdk/openai-compatible"
               options:
                 baseURL: "https://codestral.mistral.ai/v1"
-                apiKey: "DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
+                apiKey: "${API_KEY}"
               models:
-                codestral-2501:
+                agent:
                   id: "codestral-2501"
-                  name: "Codestral Primary Agent"
-                  description: "Primary Codestral model for automated reasoning"
-                  provider: "codestral"
-                codestral-latest:
+                  name: "Copilot Agent"
+                fallback:
                   id: "codestral-latest"
-                  name: "Codestral Fallback Agent"
-                  description: "Backup model in case primary fails"
-                  provider: "codestral"
-          defaultModel: "codestral/codestral-2501"
+                  name: "Fallback Agent"
+          defaultModel: "codestral/agent"
           EOF
-          echo "✅ Codestral configuration completed."
-          echo "🔍 Config preview:"
-          cat ~/.opencode/config.yaml
 
-      - name: 🧠 Run Codestral Task
+          echo "✅ Configuration complete"
+          cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/'
+
+      - name: 🔍 Generate Branch Name
+        id: branch_name
+        run: |
+          if [ -n "${{ github.event.inputs.branch_name }}" ]; then
+            BRANCH_NAME="${{ github.event.inputs.branch_name }}"
+          else
+            TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+            SLUG=$(echo "${{ github.event.inputs.task_description }}" | head -c 30 | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '-' | sed 's/-$//')
+            BRANCH_NAME="copilot/${{ github.event.inputs.task_type }}/$SLUG-$TIMESTAMP"
+          fi
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "🌿 Branch name: $BRANCH_NAME"
+
+      - name: 🤖 Execute Task with Autonomous Agent
+        id: agent_execution
         env:
-          PRIMARY_MODEL: "codestral/codestral-2501"
-          FALLBACK_MODEL: "codestral/codestral-latest"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PATH="$HOME/.opencode/bin:$PATH"
-          echo "🚀 Running primary model: $PRIMARY_MODEL"
-          if ! opencode run -m "$PRIMARY_MODEL" "Analyze and improve recent commit"; then
-            echo "⚠️ Primary model failed, retrying with fallback model ($FALLBACK_MODEL)..."
-            if ! opencode run -m "$FALLBACK_MODEL" "Analyze and improve recent commit"; then
-              echo "❌ Both models failed — printing recent Codestral logs:"
-              find ~/.local/share/opencode/log -type f -name "*.log" -print -exec cat {} \;
-              exit 1
-            fi
-          fi
+          
+          opencode run -m codestral/agent "You are an autonomous coding agent executing this task:
+
+TASK: ${{ github.event.inputs.task_description }}
+TYPE: ${{ github.event.inputs.task_type }}
+BRANCH: ${{ steps.branch_name.outputs.branch_name }}
+TARGET: ${{ github.event.inputs.target_branch }}
+CREATE_PR: ${{ github.event.inputs.create_pr }}
+RUN_TESTS: ${{ github.event.inputs.run_tests }}
+
+INSTRUCTIONS:
+1. Explore the repository structure (ls, find, cat)
+2. Create branch: git checkout -b ${{ steps.branch_name.outputs.branch_name }}
+3. Implement solution following existing code patterns
+4. Make atomic commits: git commit -m 'type: description'
+5. Run tests if enabled: npm test / pytest / cargo test
+6. Push changes: git push -u origin ${{ steps.branch_name.outputs.branch_name }}
+7. Create PR if enabled: gh pr create --title '[Copilot] ${{ github.event.inputs.task_type }}: <description>' --base ${{ github.event.inputs.target_branch }}
+
+Execute now and show progress."
 
       - name: 📊 Workflow Summary
         if: always()
@@ -68,8 +173,15 @@ jobs:
           echo "╔══════════════════════════════════════════════════════════════╗"
           echo "║              📊 WORKFLOW EXECUTION REPORT                    ║"
           echo "╚══════════════════════════════════════════════════════════════╝"
-          echo "✅ Task: Codestral dispatch complete"
-          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "✅ Task: ${{ github.event.inputs.task_type }}"
+          echo "🌿 Branch: ${{ steps.branch_name.outputs.branch_name }}"
           echo "📅 Completed: $(date)"
           echo "👤 Requested by: ${{ github.actor }}"
+          if [ "${{ github.event.inputs.create_pr }}" = "true" ]; then
+            PR_URL=$(gh pr list --head "${{ steps.branch_name.outputs.branch_name }}" --json url --jq '.[0].url' 2>/dev/null || echo "")
+            if [ -n "$PR_URL" ]; then
+              echo "✅ Pull Request Created: $PR_URL"
+              echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+            fi
+          fi
           echo "🔗 Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
