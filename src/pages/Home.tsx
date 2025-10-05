@@ -10,87 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Award, Leaf, Tractor, Star, Users, TrendingUp, Zap, Shield, CheckCircle, Globe, Heart, Play, BarChart3, Clock, MapPin, Phone, Mail } from 'lucide-react'
 import Footer from '@/components/Footer'
 
-const Home = (): JSX.Element => {
-  const navigate = useNavigate()
-  const [scrollY, setScrollY] = useState(0)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [productImageLoading, setProductImageLoading] = useState<boolean[]>(() =>
-    Array(products.length).fill(true)
-  );
-
-  const handleProductImageLoad = (index: number) => {
-    setProductImageLoading((prev) => {
-      const newState = [...prev];
-      newState[index] = false;
-      return newState;
-    });
-  };
-
-  const [galleryImageLoading, setGalleryImageLoading] = useState<boolean[]>(() =>
-    Array(6).fill(true)
-  );
-
-  const handleGalleryImageLoad = (index: number) => {
-    setGalleryImageLoading((prev) => {
-      const newState = [...prev];
-      newState[index] = false;
-      return newState;
-    });
-  };
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % 3)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  }
-
-  const staggerContainer = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const scaleIn = {
-    initial: { opacity: 0, scale: 0.8 },
-    animate: { opacity: 1, scale: 1 },
-    transition: { duration: 0.5 }
-  }
-
-  const slideInLeft = {
-    initial: { opacity: 0, x: -100 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.8 }
-  }
-
-  const slideInRight = {
-    initial: { opacity: 0, x: 100 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.8 }
-  }
-
-  
-  const products = [
+const products = [
     {
     id: 0,
     name: 'Automotive Grade Urea',
@@ -202,6 +122,88 @@ const Home = (): JSX.Element => {
     { year: '2020', title: 'Sustainability Focus', desc: 'Achieved carbon-neutral production and organic certifications.' },
     { year: '2025', title: 'Future Forward', desc: 'Leading the industry with AI-powered precision agriculture.' },
   ]
+
+const Home = (): JSX.Element => {
+  const navigate = useNavigate()
+  const [scrollY, setScrollY] = useState(0)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [productImageLoading, setProductImageLoading] = useState<boolean[]>(() =>
+    Array(products.length).fill(true)
+  );
+
+  const handleProductImageLoad = (index: number) => {
+    setProductImageLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = false;
+      return newState;
+    });
+  };
+
+  const [galleryImageLoading, setGalleryImageLoading] = useState<boolean[]>(() =>
+    Array(6).fill(true)
+  );
+
+  const handleGalleryImageLoad = (index: number) => {
+    setGalleryImageLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = false;
+      return newState;
+    });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % 3)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  }
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const scaleIn = {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.5 }
+  }
+
+  const slideInLeft = {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8 }
+  }
+
+  const slideInRight = {
+    initial: { opacity: 0, x: 100 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8 }
+  }
+
+  
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 overflow-x-hidden relative">
