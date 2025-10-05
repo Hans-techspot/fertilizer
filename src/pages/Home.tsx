@@ -6,7 +6,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Badge } from '@/components/ui/badge'
 import { Award, Leaf, Tractor, Star, Users, TrendingUp, Zap, Shield, CheckCircle, Globe, Heart, Play, BarChart3, Clock, MapPin, Phone, Mail } from 'lucide-react'
-import Footer from '@/components/Footer'
 import { Link } from "react-router-dom";
 
 
@@ -865,7 +864,6 @@ const Home = (): JSX.Element => {
         />
       </motion.section>
 
-      <Footer />
     </div>
   )
 }
