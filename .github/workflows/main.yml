@@ -106,23 +106,21 @@ jobs:
           API_KEY="${{ secrets.CODESTRAL_API_KEY }}"
           [ -z "$API_KEY" ] && API_KEY="DXfXAjwNIZcAv1ESKtoDwWZZF98lJxho"
 
-          cat > ~/.opencode/config.yaml <<EOF
-providers:
+          echo "providers:
   codestral:
-    name: "Codestral"
-    module: "@ai-sdk/openai-compatible"
+    name: \"Codestral\"
+    module: \"@ai-sdk/openai-compatible\"
     options:
-      baseURL: "https://codestral.mistral.ai/v1"
-      apiKey: "${API_KEY}"
+      baseURL: \"https://codestral.mistral.ai/v1\"
+      apiKey: \"${API_KEY}\"
     models:
       agent:
-        id: "codestral-2501"
-        name: "Copilot Agent"
+        id: \"codestral-2501\"
+        name: \"Copilot Agent\"
       fallback:
-        id: "codestral-latest"
-        name: "Fallback Agent"
-defaultModel: "codestral/agent"
-EOF
+        id: \"codestral-latest\"
+        name: \"Fallback Agent\"
+defaultModel: \"codestral/agent\"" > ~/.opencode/config.yaml
 
           echo "✅ Configuration complete"
           cat ~/.opencode/config.yaml | sed 's/apiKey: .*/apiKey: [REDACTED]/'
@@ -146,7 +144,7 @@ EOF
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PATH="$HOME/.opencode/bin:$PATH"
-          
+
           opencode run -m codestral/agent "You are an autonomous coding agent executing this task:
 
 TASK: ${{ github.event.inputs.task_description }}
