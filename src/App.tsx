@@ -6,6 +6,7 @@ import About from './pages/About'
 import Products from './pages/Products'
 import Contact from './pages/Contact'
 import Terms from './pages/Terms'
+import Services from './pages/Services'
 import { Toaster } from 'sonner'
 
 function App(): JSX.Element {
@@ -19,6 +20,7 @@ function App(): JSX.Element {
           <Route path="/products" element={<Products />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/services" element={<Services />} />
         </Routes>
         <Toaster />
       </div>

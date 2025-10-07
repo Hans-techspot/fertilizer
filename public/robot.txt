@@ -1,0 +1,24 @@
+# ================================
+# TAT GLOBAL COMPANY LIMITED
+# robots.txt
+# Website: https://tat-globalcoltd.com/
+# Purpose: Control search engine crawling & indexing
+# ================================
+
+# Allow all major search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Block crawling of sensitive or admin pages
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Sitemap location for Google, Bing, etc.
+Sitemap: https://tat-globalcoltd.com/sitemap.xml
+
+# Additional guidance
+# - Do NOT disallow important product or service pages.
+# - Keep sitemap up to date with new fertilizer or product pages.
+# - Test this file on Google Search Console after deployment.
