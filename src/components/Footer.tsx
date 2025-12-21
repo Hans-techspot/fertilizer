@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react'
+import { Phone, MapPin } from 'lucide-react'
 
 const Footer = (): JSX.Element => {
   return (
@@ -13,20 +13,6 @@ const Footer = (): JSX.Element => {
             <p className="text-gray-300 mb-4">
               Leading provider of premium fertilizer solutions for sustainable agriculture worldwide.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -57,15 +43,13 @@ const Footer = (): JSX.Element => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-green-400" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-green-400" />
-                <span className="text-gray-300">info@tatglobal.com</span>
+                <span className="text-gray-300">+66 98 402 5295</span>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-green-400 mt-1" />
-                <span className="text-gray-300">123 Agriculture Way<br />Farmville, USA 12345</span>
+                <span className="text-gray-300">
+                  Mueang Lampang District<br />Lampang 52000, Thailand
+                </span>
               </div>
             </div>
           </div>
