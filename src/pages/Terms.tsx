@@ -158,7 +158,7 @@ const Terms = (): JSX.Element => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                These terms are governed by the laws of the United States. Any disputes arising from these terms shall be resolved in the courts of [Jurisdiction].
+                These terms are governed by the laws of Thailand. Any disputes arising from these terms shall be resolved in the courts of Lampang, Thailand.
               </p>
             </CardContent>
           </Card>
@@ -171,8 +171,8 @@ const Terms = (): JSX.Element => {
             <p className="text-gray-600 mb-4">If you have any questions about these Terms and Conditions, please contact us:</p>
             <div className="space-y-2 text-sm text-gray-600">
               <p>Email: legal@tatglobal.com</p>
-              <p>Phone: +1 (555) 123-4567</p>
-              <p>Address: 123 Agriculture Way, Farmville, USA 12345</p>
+              <p>Phone: +66 98 402 5295</p>
+              <p>Address: Mueang Lampang District, Lampang 52000, Thailand</p>
             </div>
             <Button className="mt-4" variant="outline" onClick={() => navigate('/contact')}>Contact Legal Team</Button>
           </CardContent>

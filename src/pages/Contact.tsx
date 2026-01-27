@@ -21,8 +21,8 @@ const Contact = (): JSX.Element => {
     setIsSubmitted(true);
   };
 
-  // Coordinates for Farmville, USA (approximate)
-  const position: [number, number] = [37.2985, -78.3967];
+  // Coordinates for Lampang, Thailand
+  const position: [number, number] = [18.2885, 99.4912];
 
   const customIcon = new Icon({
     iconUrl: '/logo.svg',
@@ -62,8 +62,8 @@ const Contact = (): JSX.Element => {
                   <Phone className="w-6 h-6 text-green-600 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Phone</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
-                    <p className="text-sm text-gray-500">Mon-Fri 8AM-6PM EST</p>
+                    <p className="text-gray-600">+66 98 402 5295</p>
+                    <p className="text-sm text-gray-500">Mon-Fri 8:30AM-5:30PM ICT</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -78,15 +78,15 @@ const Contact = (): JSX.Element => {
                   <MapPin className="w-6 h-6 text-green-600 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Address</h3>
-                    <p className="text-gray-600">123 Agriculture Way<br />Farmville, USA 12345</p>
+                    <p className="text-gray-600">Mueang Lampang District<br />Lampang 52000, Thailand</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
                   <Clock className="w-6 h-6 text-green-600 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Business Hours</h3>
-                    <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM</p>
-                    <p className="text-gray-600">Saturday: 9:00 AM - 4:00 PM</p>
+                    <p className="text-gray-600">Monday - Friday: 8:30 AM - 5:30 PM</p>
+                    <p className="text-gray-600">Saturday: 9:00 AM - 1:00 PM</p>
                     <p className="text-gray-600">Sunday: Closed</p>
                   </div>
                 </div>
@@ -190,16 +190,16 @@ const Contact = (): JSX.Element => {
                 <Popup>
                   <div className="text-center">
                     <strong>TAT GLOBAL COMPANY LIMITED</strong><br />
-                    123 Agriculture Way<br />
-                    Farmville, USA 12345<br />
-                    <a href="tel:+15551234567" className="text-green-600 hover:text-green-800">+1 (555) 123-4567</a>
+                    Mueang Lampang District<br />
+                    Lampang 52000, Thailand<br />
+                    <a href="tel:+66984025295" className="text-green-600 hover:text-green-800">+66 98 402 5295</a>
                   </div>
                 </Popup>
               </Marker>
             </MapContainer>
           </div>
           <div className="mt-4 text-sm text-gray-600">
-            <p>Our headquarters is located in the heart of agricultural country. Visit us for personalized consultations and product demonstrations.</p>
+            <p>Our headquarters is located in Lampang, Thailand. Visit us for personalized consultations and product demonstrations.</p>
           </div>
         </motion.div>
 

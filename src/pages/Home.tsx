@@ -296,7 +296,7 @@ const Home = (): JSX.Element => {
                   <CardContent>
                     <div className="flex items-center gap-2 mb-2">
                       <Phone className="w-4 h-4" />
-                      <span>+1 (555) 123-4567</span>
+                      <span>+66 98 402 5295</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
