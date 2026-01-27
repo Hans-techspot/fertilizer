@@ -17,7 +17,6 @@ const Contact = (): JSX.Element => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Here you would typically send the form data to a server
-    console.log(formData);
     setIsSubmitted(true);
   };
 

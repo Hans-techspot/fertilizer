@@ -3,14 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ShoppingCart, Star, Truck, Shield } from 'lucide-react'
 import Footer from '@/components/Footer'
 
+type Product = {
+  id: number
+  name: string
+  category: string
+  price: string
+  rating: number
+  image: string
+  description: string
+  features: string[]
+  benefits: string[]
+}
+
 const Products = (): JSX.Element => {
   const navigate = useNavigate()
-  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
  const products = [
   {
