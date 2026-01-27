@@ -20,7 +20,7 @@ type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
   api: ReturnType<typeof useEmblaCarousel>[1]
   opts?: CarouselOptions
-  orientation: "horizontal" | "vertical" | (string & {})
+  orientation: "horizontal" | "vertical" | string
   scrollPrev: () => void
   scrollNext: () => void
   canScrollPrev: boolean
